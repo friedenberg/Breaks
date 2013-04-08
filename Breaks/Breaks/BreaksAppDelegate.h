@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AACoreDataController.h"
+#import <AAKit/AAKit.h>
+
 
 @interface BreaksAppDelegate : UIResponder <UIApplicationDelegate>
 {
-    AACoreDataController *coreDataController;
+
 }
 
 @property (strong, nonatomic) UIWindow *window;
