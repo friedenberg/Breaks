@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11E53" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Break" representedClassName="Break" parentEntity="ScheduledObject" syncable="YES">
+        <attribute name="timeTaken" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="shift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Shift" inverseName="breaks" inverseEntity="Shift" syncable="YES"/>
+    </entity>
+    <entity name="Employee" representedClassName="Employee">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="shift" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Shift" inverseName="employee" inverseEntity="Shift" syncable="YES"/>
+    </entity>
+    <entity name="ScheduledObject" representedClassName="ScheduledObject" isAbstract="YES" syncable="YES">
+        <attribute name="end" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="start" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="Shift" representedClassName="Shift" parentEntity="ScheduledObject" syncable="YES">
+        <relationship name="breaks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Break" inverseName="shift" inverseEntity="Break" syncable="YES"/>
+        <relationship name="employee" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Employee" inverseName="shift" inverseEntity="Employee" syncable="YES"/>
+        <relationship name="zonings" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Zoning" inverseName="shift" inverseEntity="Zoning" syncable="YES"/>
+    </entity>
+    <entity name="Zone" representedClassName="Zone" syncable="YES">
+        <attribute name="hexColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="section" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="zonings" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Zoning" inverseName="shiftZone" inverseEntity="Zoning" syncable="YES"/>
+    </entity>
+    <entity name="Zoning" representedClassName="Zoning" parentEntity="ScheduledObject" syncable="YES">
+        <relationship name="shift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Shift" inverseName="zonings" inverseEntity="Shift" syncable="YES"/>
+        <relationship name="shiftZone" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Zone" inverseName="zonings" inverseEntity="Zone" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Break" positionX="70" positionY="-6" width="128" height="90"/>
+        <element name="Employee" positionX="-317" positionY="-9" width="128" height="75"/>
+        <element name="ScheduledObject" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Shift" positionX="-137" positionY="9" width="128" height="135"/>
+        <element name="Zone" positionX="-0" positionY="186" width="128" height="105"/>
+        <element name="Zoning" positionX="-243" positionY="198" width="128" height="105"/>
+    </elements>
+</model>
