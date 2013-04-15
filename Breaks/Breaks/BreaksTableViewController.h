@@ -24,7 +24,7 @@
 	IBOutlet UIBarButtonItem *segmentedControlBarButtonItem;
 }
 
-@property (nonatomic, assign) id <BreaksTableViewControllerDelegate> delegate;
-@property (nonatomic, retain) NSDateFormatter *dateFormatter;
+@property (nonatomic, weak) id <BreaksTableViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @end

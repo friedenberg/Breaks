@@ -24,7 +24,7 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     _coreDataController = [[AACoreDataController alloc] initWithModelName:@"BRBreaks"];
 	
@@ -82,17 +82,15 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
         [_coreDataController save];
         [shifts makeObjectsPerformSelector:@selector(standardizeBreaks)];
         [_coreDataController save];
-        [shifts release];
         
         NSOperationQueue *queue = [NSOperationQueue new];
         BreakProcessingOperation *operation = [BreakProcessingOperation new];
         operation.persistentStoreCoordinator = _coreDataController.persistentStoreCoordinator;
         //[queue addOperation:operation];
         
-        [queue release];
     }
     
-    ScheduleViewController *scheduleViewController = [[[ScheduleViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    ScheduleViewController *scheduleViewController = [[ScheduleViewController alloc] initWithNibName:nil bundle:nil];
     scheduleViewController.managedObjectContext = _coreDataController.managedObjectContext;
 
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:scheduleViewController];
@@ -100,7 +98,6 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
 	
     self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
-    [navigationController release];
     return YES;
 }
 
@@ -140,11 +137,5 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-- (void)dealloc
-{
-    [_window release];
-    [_coreDataController release];
-    [super dealloc];
-}
 
 @end

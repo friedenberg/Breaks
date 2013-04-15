@@ -25,6 +25,6 @@
 	
 }
 
-@property (nonatomic, assign) id <ZonesTableViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <ZonesTableViewControllerDelegate> delegate;
 
 @end

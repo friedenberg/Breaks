@@ -13,8 +13,8 @@
 
 @interface BREmployee : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSSet *shifts;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSSet *shifts;
 @end
 
 @interface BREmployee (CoreDataGeneratedAccessors)

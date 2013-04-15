@@ -27,8 +27,8 @@
 	NSMutableArray *zoningDurations;
 	NSMutableArray *breakDurations;
 	
-	IBOutlet id <ScheduleViewDataSource> dataSource;
-	IBOutlet id <ScheduleViewDelegate> delegate;
+	IBOutlet id <ScheduleViewDataSource> __weak dataSource;
+	IBOutlet id <ScheduleViewDelegate> __weak delegate;
 	
 	
 	UIView *upperLeftFillView;
@@ -78,8 +78,8 @@
 	} delegateResponseFlags;
 }
 
-@property (nonatomic, assign) IBOutlet id <ScheduleViewDataSource> dataSource;
-@property (nonatomic, assign) IBOutlet id <ScheduleViewDelegate> delegate;
+@property (nonatomic, weak) IBOutlet id <ScheduleViewDataSource> dataSource;
+@property (nonatomic, weak) IBOutlet id <ScheduleViewDelegate> delegate;
 
 @property (nonatomic, copy) NSDate *referenceDate; //defaults to the start of the day when the view is initialized
 
@@ -99,10 +99,10 @@
 @property (nonatomic, readonly) AADuration visibleDuration;
 
 //zoning colors
-@property (nonatomic, assign) NSSet *zoningViewHexColors;
+@property (nonatomic, weak) NSSet *zoningViewHexColors;
 
 //timehead management
-@property (nonatomic, retain) NSDate *timeheadDisplayDate;
+@property (nonatomic, strong) NSDate *timeheadDisplayDate;
 
 //animation
 - (void)setRulerHeight:(CGFloat)value animated:(BOOL)animated;

@@ -13,6 +13,6 @@
 
 @interface BRRule : NSManagedObject
 
-@property (nonatomic, retain) BRZone *sectionZone;
+@property (nonatomic, strong) BRZone *sectionZone;
 
 @end

@@ -13,10 +13,10 @@
 
 @interface BRShift : NSManagedObject
 
-@property (nonatomic, retain) NSOrderedSet *breaks;
-@property (nonatomic, retain) BREmployee *employee;
-@property (nonatomic, retain) NSOrderedSet *zonings;
-@property (nonatomic, retain) BRDuration *duration;
+@property (nonatomic, strong) NSOrderedSet *breaks;
+@property (nonatomic, strong) BREmployee *employee;
+@property (nonatomic, strong) NSOrderedSet *zonings;
+@property (nonatomic, strong) BRDuration *duration;
 @end
 
 @interface BRShift (CoreDataGeneratedAccessors)

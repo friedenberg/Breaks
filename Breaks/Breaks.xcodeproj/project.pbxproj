@@ -660,6 +660,7 @@
 		497FA9F7152FD43F00636DE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Breaks/Breaks-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -680,6 +681,7 @@
 		497FA9F8152FD43F00636DE1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Breaks/Breaks-Prefix.pch";
 				HEADER_SEARCH_PATHS = (

@@ -59,7 +59,7 @@
 	
 	if (!cell)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
 		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
@@ -100,8 +100,6 @@
 		controller.delegate = self;
         
 		[self.navigationController pushViewController:controller animated:YES];
-		[zoneEditContext release];
-		[controller release];
 	}
 	else
 	{
@@ -123,9 +121,5 @@
 	[self saveContext];
 }
 
-- (void)dealloc
-{
-	[super dealloc];
-}
 
 @end

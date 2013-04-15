@@ -19,7 +19,7 @@ static UIColor *selectedColor;
 {
 	if (self == [ScheduleViewCell class])
 	{
-		selectedColor = [[UIColor colorWithRed:0.892 green:0.924 blue:0.977 alpha:1.000] retain];
+		selectedColor = [UIColor colorWithRed:0.892 green:0.924 blue:0.977 alpha:1.000];
 	}
 }
 
@@ -119,13 +119,6 @@ static UIColor *selectedColor;
 
 @synthesize shouldShowSelectionControlDuringEditing;
 
-- (void)dealloc
-{
-	[badgeView release];
-	[imageView release];
-	[contentView release];
-	[super dealloc];
-}
 
 
 @end

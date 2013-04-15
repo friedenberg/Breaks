@@ -27,17 +27,15 @@ NSString *const kMinuteChangeNotification = @"kMinuteChangeNotification";
 		
 		fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 		fetchedResultsController.delegate = self;
-		[request release];
 		
 		NSError *error = nil;
 		[fetchedResultsController performFetch:&error];
-		[error log];
 		
 		NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 		[center addObserver:self selector:@selector(didChangeSystemState:) name:NSSystemTimeZoneDidChangeNotification object:nil];
 		[center addObserver:self selector:@selector(didChangeSystemState:) name:UIApplicationWillEnterForegroundNotification object:nil];
 		
-		calendar = [[NSCalendar autoupdatingCurrentCalendar] retain];
+		calendar = [NSCalendar autoupdatingCurrentCalendar];
 		
 		NSDate *today = [NSDate date];
 		
@@ -46,7 +44,6 @@ NSString *const kMinuteChangeNotification = @"kMinuteChangeNotification";
 		
 		NSDate *nextMinuteExact = [calendar dateByAddingComponents:components toDate:today options:0];
 		
-		[components release];
 		
 		NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
 		components = [calendar components:unitFlags fromDate:nextMinuteExact];
@@ -56,7 +53,6 @@ NSString *const kMinuteChangeNotification = @"kMinuteChangeNotification";
 		
 		minuteTimer = [[NSTimer alloc] initWithFireDate:nextMinuteRounded interval:60 target:self selector:@selector(minuteTimer:) userInfo:nil repeats:YES];
 		[[NSRunLoop currentRunLoop] addTimer:minuteTimer forMode:NSRunLoopCommonModes];
-		[minuteTimer release];
 	}
 	
 	return self;
@@ -79,10 +75,7 @@ NSString *const kMinuteChangeNotification = @"kMinuteChangeNotification";
 
 - (void)dealloc
 {
-	[calendar release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[fetchedResultsController release];
-	[super dealloc];
 }
 
 @end

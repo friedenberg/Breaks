@@ -174,12 +174,5 @@
 	[viewsToReload addObject:key];
 }
 
-- (void)dealloc
-{
-	[visibleViews release];
-	[cachedViews release];
-	[selectedViews release];
-	[super dealloc];
-}
 
 @end

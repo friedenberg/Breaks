@@ -105,7 +105,7 @@
 {
 	if (someViewRecycler == columnViewRecycler)
 	{
-		return [[AADemandGraphColumnView new] autorelease];
+		return [AADemandGraphColumnView new];
 	}
 	else @throw [NSException exceptionWithName:NSGenericException reason:@"wrong view recycler!" userInfo:nil];
 }
@@ -215,12 +215,5 @@
 	columnViewRecycler.keyForCurrentlyTouchedView = nil;
 }
 
-- (void)dealloc
-{
-	[columnViewRecycler release];
-	[columnContentView release];
-	[backgroundView release];
-	[super dealloc];
-}
 
 @end

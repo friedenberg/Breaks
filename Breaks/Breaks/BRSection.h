@@ -13,8 +13,8 @@
 
 @interface BRSection : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSSet *sectionZone;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSSet *sectionZone;
 @end
 
 @interface BRSection (CoreDataGeneratedAccessors)

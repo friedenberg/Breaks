@@ -38,7 +38,7 @@ static UIImage *kTimeheadCarotImage;
 + (void)initialize
 {
     if (self == [ScheduleView class]) {
-        kTimeheadCarotImage = [[[UIImage imageNamed:@"timeheadCarot"] resizableImageWithCapInsets:UIEdgeInsetsMake(31, 0, 0, 0)] retain];
+        kTimeheadCarotImage = [[UIImage imageNamed:@"timeheadCarot"] resizableImageWithCapInsets:UIEdgeInsetsMake(31, 0, 0, 0)];
     }
 }
 
@@ -218,15 +218,15 @@ static CGRect CGRectFloor(CGRect rect)
 {
 	if (someViewRecycler == headerViewRecycler)
 	{
-		return [[[ScheduleViewHeaderView alloc] initWithFrame:CGRectZero] autorelease];
+		return [[ScheduleViewHeaderView alloc] initWithFrame:CGRectZero];
 	}
 	else if (someViewRecycler == zoningViewRecycler)
 	{
-		return [[[ScheduleViewZoningView alloc] initWithFrame:CGRectZero] autorelease];
+		return [[ScheduleViewZoningView alloc] initWithFrame:CGRectZero];
 	}
 	else if (someViewRecycler == breakViewRecycler)
 	{
-		return [[[ScheduleViewBreakView alloc] initWithFrame:CGRectZero] autorelease];
+		return [[ScheduleViewBreakView alloc] initWithFrame:CGRectZero];
 	}
 	else @throw [NSException exceptionWithName:NSGenericException reason:@"Unknown view recycler passed into -unusedViewForViewRecycler" userInfo:nil];
 }
@@ -513,8 +513,7 @@ static CGRect CGRectFloor(CGRect rect)
 - (void)setTimeheadDisplayDate:(NSDate *)value
 {
 	NSDate *oldDate = timeheadDisplayDate;
-	timeheadDisplayDate = [value retain];
-	[oldDate release];
+	timeheadDisplayDate = value;
 	
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	
@@ -768,9 +767,6 @@ static NSValue *NSValueFromScheduleViewObject(id <ScheduleViewObject> someObject
 
 - (void)reloadCache
 {
-	[shiftDurations release];
-	[zoningDurations release];
-	[breakDurations release];
 	
 	numberOfRows = [dataSource numberOfShiftsInSection:0 inScheduleView:self];
 	
@@ -801,7 +797,6 @@ static NSValue *NSValueFromScheduleViewObject(id <ScheduleViewObject> someObject
 		}
 		
 		[zoningDurations addObject:zonings];
-		[zonings release];
 		
 		
 		NSMutableArray *breaks = [NSMutableArray new];
@@ -814,7 +809,6 @@ static NSValue *NSValueFromScheduleViewObject(id <ScheduleViewObject> someObject
 		}
 		
 		[breakDurations addObject:breaks];
-		[breaks release];
 	}
 }
 
@@ -833,23 +827,5 @@ static NSValue *NSValueFromScheduleViewObject(id <ScheduleViewObject> someObject
 	[viewRecyclers makeObjectsPerformSelector:@selector(removeAllCachedViews)];
 }
 
-- (void)dealloc
-{
-	[timeheadDisplayDate release];
-	[shiftDurations release];
-	[zoningDurations release];
-	[breakDurations release];
-	[headerContentView release];
-	[zoningContentView release];
-	[breakContentView release];
-	[timeheadView release];
-	[rulerView release];
-	[backgroundView release];
-	[zoningViewRecycler release];
-    [headerViewRecycler release];
-    [breakViewRecycler release];
-	[zoningViewTintedImages release];
-	[super dealloc];
-}
 
 @end

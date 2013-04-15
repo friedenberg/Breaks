@@ -28,15 +28,15 @@ static UIColor *invalidDetailTextLabelColor;
 {
 	if (self == [BreaksTableViewController class])
 	{
-		defaultDetailTextLabelTextColor = [[UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1] retain];
-		invalidDetailTextLabelColor = [[UIColor colorWithRed:0.507 green:0.227 blue:0.234 alpha:1.000] retain];
+		defaultDetailTextLabelTextColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1];
+		invalidDetailTextLabelColor = [UIColor colorWithRed:0.507 green:0.227 blue:0.234 alpha:1.000];
 	}
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        calendar = [[NSCalendar currentCalendar] retain];
+        calendar = [NSCalendar currentCalendar];
     }
     
     return self;
@@ -110,7 +110,7 @@ static UIColor *invalidDetailTextLabelColor;
 	
 	if (!cell)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
 		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		//cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
@@ -151,11 +151,5 @@ static UIColor *invalidDetailTextLabelColor;
 	[self.delegate breaksTableViewController:self didSelectBreakWithManagedObjectID:[breakObject objectID]];
 }
 
-- (void)dealloc
-{
-	[calendar release];
-	[dateFormatter release];
-	[super dealloc];
-}
 
 @end

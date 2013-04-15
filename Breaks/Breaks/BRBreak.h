@@ -16,7 +16,7 @@
 @interface BRBreak : NSManagedObject
 
 @property (nonatomic) BRTimeInterval type;
-@property (nonatomic, retain) BRShift *shift;
-@property (nonatomic, retain) BRDuration *duration;
+@property (nonatomic, strong) BRShift *shift;
+@property (nonatomic, strong) BRDuration *duration;
 
 @end

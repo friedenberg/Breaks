@@ -77,10 +77,5 @@
 	[self replaceObjectAtIndex:index + offset withObject:anObject];
 }
 
-- (void)dealloc
-{
-	[array release];
-	[super dealloc];
-}
 
 @end

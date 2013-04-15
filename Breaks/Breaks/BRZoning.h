@@ -13,8 +13,8 @@
 
 @interface BRZoning : NSManagedObject
 
-@property (nonatomic, retain) BRShift *shift;
-@property (nonatomic, retain) BRZone *sectionZone;
-@property (nonatomic, retain) BRDuration *duration;
+@property (nonatomic, strong) BRShift *shift;
+@property (nonatomic, strong) BRZone *sectionZone;
+@property (nonatomic, strong) BRDuration *duration;
 
 @end

@@ -30,7 +30,6 @@
 	
 	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBarButtonItem:)];
     self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
 }
 
 - (void)doneBarButtonItem:(id)sender

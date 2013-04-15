@@ -27,7 +27,7 @@
 
 @interface ScheduleViewController () <BreaksTableViewControllerDelegate, UIActionSheetDelegate, ZonesTableViewControllerDelegate>
 
-@property (nonatomic, retain) NSIndexPath *indexPathOfSelectedBreakObject;
+@property (nonatomic, strong) NSIndexPath *indexPathOfSelectedBreakObject;
 
 - (void)zoneBarButtonItem:(id)sender;
 - (void)breaksBarButtonItem:(id)sender;
@@ -82,15 +82,12 @@
 	
 	UIBarButtonItem *breaksItem = [[UIBarButtonItem alloc] initWithTitle:@"Breaks" style:UIBarButtonItemStyleBordered target:self action:@selector(breaksBarButtonItem:)];
 	[items addObject:breaksItem];
-	[breaksItem release];
 	
 	UIBarButtonItem *zoneItem = [[UIBarButtonItem alloc] initWithTitle:@"Zones" style:UIBarButtonItemStyleBordered target:self action:@selector(zoneBarButtonItem:)];
 	[items addObject:zoneItem];
-	[zoneItem release];
 	
     self.navigationItem.rightBarButtonItems = items;
 	
-	[items release];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -342,7 +339,6 @@
 	
 	CGRect rect = [someScheduleView rectForBreakAtIndexPath:indexPath];
 	[actionSheet showFromRect:rect inView:someScheduleView animated:YES];
-	[actionSheet release];
 }
 
 #pragma mark - action sheet delegate
@@ -381,11 +377,5 @@
 	scheduleView.timeheadDisplayDate = [NSDate date];
 }
 
-- (void)dealloc
-{
-	[breakDateFormatter release];
-	[visibleZones release];
-	[super dealloc];
-}
 
 @end

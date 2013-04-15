@@ -18,7 +18,6 @@
 		navController.modalPresentationStyle = modalViewController.modalPresentationStyle;
 		navController.modalTransitionStyle = modalViewController.modalTransitionStyle;
 		modalViewController = navController;
-		[navController autorelease];
 	}
 	
 	[self presentModalViewController:modalViewController animated:animated];

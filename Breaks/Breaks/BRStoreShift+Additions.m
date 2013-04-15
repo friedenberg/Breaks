@@ -70,7 +70,6 @@
 	}
 	
 	self.breaks = [NSOrderedSet orderedSetWithArray:breaks];
-	[breaks release];
 }
 
 

@@ -33,7 +33,7 @@ static UIImage *backgroundImage;
 		[roundedRect stroke];
 		
 		backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-		backgroundImage = [[backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)] retain];
+		backgroundImage = [backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
 		
 		UIGraphicsEndImageContext();
 	}
@@ -62,11 +62,11 @@ static UIImage *backgroundImage;
 	//[roundedRect stroke];
 	
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-	image = [[image resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)] retain];
+	image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(cornerRadius, cornerRadius, cornerRadius, cornerRadius)];
 	
 	UIGraphicsEndImageContext();
 	
-	return [image autorelease];
+	return image;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -94,10 +94,5 @@ static UIImage *backgroundImage;
 
 @synthesize backgroundImageView;
 
-- (void)dealloc
-{
-	[backgroundImageView release];
-	[super dealloc];
-}
 
 @end

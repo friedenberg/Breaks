@@ -73,12 +73,5 @@
 	[nameLabel setBackgroundColor:backgroundColor];
 }
 
-- (void)dealloc
-{
-	[separatorView release];
-	[imageView release];
-	[nameLabel release];
-	[super dealloc];
-}
 
 @end

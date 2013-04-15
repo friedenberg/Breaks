@@ -135,7 +135,7 @@ static NSArray *kColorNames;
 	if (indexPath.section == 0 && indexPath.row == 0) return nameTableViewCell;
 	else if (indexPath.section == 2)
 	{
-		AADeleteButtonTableViewCell *cell = [[[AADeleteButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Delete"] autorelease];
+		AADeleteButtonTableViewCell *cell = [[AADeleteButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Delete"];
 		cell.textLabel.text = @"Delete Zone";
 		return cell;
 	}
@@ -145,7 +145,7 @@ static NSArray *kColorNames;
 	
 	if (!cell)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
 	}
 	
 	NSUInteger index = indexPath.row;
@@ -174,7 +174,6 @@ static NSArray *kColorNames;
 												   destructiveButtonTitle:@"Delete Zone" 
 														otherButtonTitles:nil];
 		[actionSheet showInView:self.view];
-		[actionSheet release];
 	}
 	else
 	{
@@ -217,10 +216,5 @@ static NSArray *kColorNames;
 	self.navigationItem.title = self.sectionZone.name;
 }
 
-- (void)dealloc
-{
-	[_sectionZone release];
-	[super dealloc];
-}
 
 @end

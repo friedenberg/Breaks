@@ -17,9 +17,9 @@
 
 @interface AAGraphLayerView : UIView
 {
-	id <AAGraphLayerViewDelegate> delegate;
+	id <AAGraphLayerViewDelegate> __weak delegate;
 }
 
-@property (nonatomic, assign) id <AAGraphLayerViewDelegate> delegate;
+@property (nonatomic, weak) id <AAGraphLayerViewDelegate> delegate;
 
 @end

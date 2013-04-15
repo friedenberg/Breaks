@@ -22,9 +22,9 @@ static UIImage *badgeImagePassive;
 {
 	if (self == [AABadgeView class])
 	{
-		badgeImagePlaceholder = [[UIImage imageNamed:@"Checkmark Placeholder.png"] retain];
-		badgeImageActive = [[UIImage imageNamed:@"Active Checkmark.png"] retain];
-		badgeImagePassive = [[UIImage imageNamed:@"Inactive Checkmark.png"] retain];
+		badgeImagePlaceholder = [UIImage imageNamed:@"Checkmark Placeholder.png"];
+		badgeImageActive = [UIImage imageNamed:@"Active Checkmark.png"];
+		badgeImagePassive = [UIImage imageNamed:@"Inactive Checkmark.png"];
 	}
 }
 

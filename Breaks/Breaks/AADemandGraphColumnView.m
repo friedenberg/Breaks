@@ -49,11 +49,5 @@
 
 @synthesize controlPointView;
 
-- (void)dealloc
-{
-	[controlPointView release];
-	[backgroundView release];
-	[super dealloc];
-}
 
 @end

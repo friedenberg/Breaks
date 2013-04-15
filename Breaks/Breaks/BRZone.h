@@ -13,12 +13,12 @@
 
 @interface BRZone : NSManagedObject
 
-@property (nonatomic, retain) NSString * hexColor;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * section;
-@property (nonatomic, retain) NSSet *zonings;
-@property (nonatomic, retain) NSOrderedSet *sectionZoneRules;
-@property (nonatomic, retain) BRSection *storeSection;
+@property (nonatomic, strong) NSString * hexColor;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * section;
+@property (nonatomic, strong) NSSet *zonings;
+@property (nonatomic, strong) NSOrderedSet *sectionZoneRules;
+@property (nonatomic, strong) BRSection *storeSection;
 @end
 
 @interface BRZone (CoreDataGeneratedAccessors)
