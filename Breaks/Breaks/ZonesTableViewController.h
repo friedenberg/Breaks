@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Apple, Stamford. All rights reserved.
 //
 
-#import "AAFetchedResultsTableViewController.h"
+#import <AAKit/AAKit.h>
 
 
 @class ZonesTableViewController;
@@ -24,8 +24,6 @@
 {
 	
 }
-
-- (id)initWithDelegate:(id <ZonesTableViewControllerDelegate>)someObject managedObjectContext:(NSManagedObjectContext *)context;
 
 @property (nonatomic, assign) id <ZonesTableViewControllerDelegate> delegate;
 

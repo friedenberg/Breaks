@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BRBreak" representedClassName="BRBreak" syncable="YES">
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="duration" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRDuration" inverseName="shiftBreak" inverseEntity="BRDuration" syncable="YES"/>
+        <relationship name="shift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRShift" inverseName="breaks" inverseEntity="BRShift" syncable="YES"/>
+    </entity>
+    <entity name="BRDuration" representedClassName="BRDuration" syncable="YES">
+        <attribute name="actualDuration" optional="YES" transient="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="actualEndDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="actualStartDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="scheduledDuration" optional="YES" transient="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="scheduledEndDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="scheduledStartDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="shift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRShift" inverseName="duration" inverseEntity="BRShift" syncable="YES"/>
+        <relationship name="shiftBreak" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRBreak" inverseName="duration" inverseEntity="BRBreak" syncable="YES"/>
+        <relationship name="zoning" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRZoning" inverseName="duration" inverseEntity="BRZoning" syncable="YES"/>
+    </entity>
+    <entity name="BREmployee" representedClassName="BREmployee">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="shifts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BRShift" inverseName="employee" inverseEntity="BRShift" syncable="YES"/>
+        <userInfo/>
+    </entity>
+    <entity name="BRRule" representedClassName="BRRule" syncable="YES">
+        <relationship name="sectionZone" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRZone" inverseName="sectionZoneRules" inverseEntity="BRZone" syncable="YES"/>
+    </entity>
+    <entity name="BRSection" representedClassName="BRSection" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sectionZone" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BRZone" inverseName="storeSection" inverseEntity="BRZone" syncable="YES"/>
+    </entity>
+    <entity name="BRShift" representedClassName="BRShift" syncable="YES">
+        <relationship name="breaks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BRBreak" inverseName="shift" inverseEntity="BRBreak" syncable="YES"/>
+        <relationship name="duration" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRDuration" inverseName="shift" inverseEntity="BRDuration" syncable="YES"/>
+        <relationship name="employee" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BREmployee" inverseName="shifts" inverseEntity="BREmployee" syncable="YES"/>
+        <relationship name="zonings" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BRZoning" inverseName="shift" inverseEntity="BRZoning" syncable="YES"/>
+    </entity>
+    <entity name="BRZone" representedClassName="BRZone" syncable="YES">
+        <attribute name="hexColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="section" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sectionZoneRules" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BRRule" inverseName="sectionZone" inverseEntity="BRRule" syncable="YES"/>
+        <relationship name="storeSection" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRSection" inverseName="sectionZone" inverseEntity="BRSection" syncable="YES"/>
+        <relationship name="zonings" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BRZoning" inverseName="sectionZone" inverseEntity="BRZoning" syncable="YES"/>
+    </entity>
+    <entity name="BRZoning" representedClassName="BRZoning" syncable="YES">
+        <relationship name="duration" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRDuration" inverseName="zoning" inverseEntity="BRDuration" syncable="YES"/>
+        <relationship name="sectionZone" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRZone" inverseName="zonings" inverseEntity="BRZone" syncable="YES"/>
+        <relationship name="shift" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRShift" inverseName="zonings" inverseEntity="BRShift" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="BRBreak" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BRDuration" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BREmployee" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BRRule" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BRSection" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BRShift" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BRZone" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="BRZoning" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>

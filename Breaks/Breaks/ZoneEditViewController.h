@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Apple, Stamford. All rights reserved.
 //
 
-#import "AACoreDataViewController.h"
+#import <AAKit/AAKit.h>
 
 
-@class Zone;
+@class BRZone;
 
 @interface ZoneEditViewController : AACoreDataViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 {
@@ -17,12 +17,12 @@
 	IBOutlet UIButton *deleteButton;
 	IBOutlet UITableViewCell *nameTableViewCell;
 	IBOutlet UITextField *nameTextField;
-	Zone *zone;
 }
 
 + (UIImage *)colorWellImageForColor:(UIColor *)color;
 
-- (id)initWithZoneObjectID:(NSManagedObjectID *)objectID managedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+@property (nonatomic, strong) NSManagedObjectID *zoneObjectID;
+@property (nonatomic, strong) BRZone *sectionZone;
 
 - (IBAction)textFieldValueDidChange:(id)sender;
 

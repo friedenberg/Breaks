@@ -11,23 +11,14 @@
 #import "UIColor-Expanded.h"
 #import "ZoneEditViewController.h"
 
-#import "Zone.h"
+#import "BRModelObjects.h"
+
 
 @interface ZonesTableViewController () <AACoreDataViewControllerDelegate>
 
 @end
 
 @implementation ZonesTableViewController
-
-- (id)initWithDelegate:(id <ZonesTableViewControllerDelegate>)someObject managedObjectContext:(NSManagedObjectContext *)context
-{
-	if (self = [super initWithNibName:@"ZonesTableView" managedObjectContext:context])
-	{
-		delegate = someObject;
-	}
-	
-	return self;
-}
 
 @dynamic delegate;
 
@@ -38,7 +29,7 @@
 
 - (void)modifyFetchRequest
 {
-	[self.fetchRequest setEntity:[NSEntityDescription entityForName:@"Zone" inManagedObjectContext:self.managedObjectContext]];
+	[self.fetchRequest setEntity:[NSEntityDescription entityForName:@"BRZone" inManagedObjectContext:self.managedObjectContext]];
 	[self.fetchRequest setSortDescriptors:[NSArray arrayWithObjects:
 										   [NSSortDescriptor sortDescriptorWithKey:@"section" ascending:YES],
 										   [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
@@ -62,7 +53,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)someTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	Zone *zone = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	BRZone *zone = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	static NSString *identifier = @"Zone";
 	UITableViewCell *cell = [someTableView dequeueReusableCellWithIdentifier:identifier];
 	
@@ -96,15 +87,18 @@
 	[someTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	UITableViewCell *cell = [someTableView cellForRowAtIndexPath:indexPath];
-	Zone *zone = [fetchedResultsController objectAtIndexPath:indexPath];
+	BRZone *zone = [fetchedResultsController objectAtIndexPath:indexPath];
 	
 	if (self.editing)
 	{
 		NSManagedObjectContext *zoneEditContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-		[zoneEditContext setParentContext:managedObjectContext];
+		[zoneEditContext setParentContext:self.managedObjectContext];
 		
-		ZoneEditViewController *controller = [[ZoneEditViewController alloc] initWithZoneObjectID:zone.objectID managedObjectContext:zoneEditContext];
+		ZoneEditViewController *controller = [[ZoneEditViewController alloc] initWithNibName:@"ZoneEditTableView" bundle:nil];
+        controller.zoneObjectID = zone.objectID;
+        controller.managedObjectContext = self.managedObjectContext;
 		controller.delegate = self;
+        
 		[self.navigationController pushViewController:controller animated:YES];
 		[zoneEditContext release];
 		[controller release];

@@ -8,8 +8,6 @@
 
 #import "AAObjectController.h"
 
-#import "NSObject+Error.h"
-
 
 NSString *const kDateChangeNotification = @"kDateChangeNotification";
 NSString *const kMinuteChangeNotification = @"kMinuteChangeNotification";
@@ -24,8 +22,8 @@ NSString *const kMinuteChangeNotification = @"kMinuteChangeNotification";
 		managedObjectContext = context;
 		
 		NSFetchRequest *request = [NSFetchRequest new];
-		[request setEntity:[NSEntityDescription entityForName:@"Shift" inManagedObjectContext:managedObjectContext]];
-		[request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"start" ascending:YES]]];
+		[request setEntity:[NSEntityDescription entityForName:@"BRShift" inManagedObjectContext:managedObjectContext]];
+		[request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES]]];
 		
 		fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:nil];
 		fetchedResultsController.delegate = self;

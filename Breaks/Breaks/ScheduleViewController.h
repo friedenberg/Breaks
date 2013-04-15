@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AAFetchedResultsTableViewController.h"
+#import <AAKit/AAKit.h>
 #import "ScheduleViewDelegate.h"
 #import "ScheduleViewDataSource.h"
 

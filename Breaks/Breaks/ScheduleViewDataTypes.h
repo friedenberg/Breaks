@@ -29,7 +29,7 @@ extern NSString *NSStringFromAADuration(AADuration duration);
 
 @protocol ScheduleViewObject <NSObject>
 
-@property (nonatomic, readonly) NSDate *start;
-@property (nonatomic, readonly) NSDate *end;
+@property (nonatomic, readonly) NSDate *scheduledStartDate;
+@property (nonatomic, readonly) NSDate *scheduledEndDate;
 
 @end

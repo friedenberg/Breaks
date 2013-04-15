@@ -10,9 +10,7 @@
 
 #import "UIColor-Expanded.h"
 
-#import "Zone.h"
-
-#import "AADeleteButtonTableViewCell.h"
+#import "BRModelObjects.h"
 
 
 @interface ZoneEditViewController ()
@@ -62,16 +60,26 @@ static NSArray *kColorNames;
 	return image;
 }
 
-- (id)initWithZoneObjectID:(NSManagedObjectID *)objectID managedObjectContext:(NSManagedObjectContext *)someContext
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if (self = [super initWithNibName:@"ZoneEditTableView" managedObjectContext:someContext])
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
 	{
-		NSError *error = nil;
-        zone = [(id)[managedObjectContext existingObjectWithID:objectID error:&error] retain];
 		self.editing = YES;
     }
 	
     return self;
+}
+
+- (void)setZoneObjectID:(NSManagedObjectID *)value
+{
+    NSError *error = nil;
+    BRZone *someZone = (id)[self.managedObjectContext existingObjectWithID:value error:&error];
+    self.sectionZone = someZone;
+}
+
+- (NSManagedObjectID *)zoneObjectID
+{
+    return [self.sectionZone objectID];
 }
 
 - (void)viewDidLoad
@@ -79,8 +87,8 @@ static NSArray *kColorNames;
 	[super viewDidLoad];
 	
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	self.navigationItem.title = zone.name;
-	nameTextField.text = zone.name;
+	self.navigationItem.title = self.sectionZone.name;
+	nameTextField.text = self.sectionZone.name;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldValueDidChange:) name:UITextFieldTextDidChangeNotification object:nameTextField];
 	
@@ -90,7 +98,7 @@ static NSArray *kColorNames;
 
 - (void)managedObjectContextStateDidChange
 {
-	self.navigationItem.rightBarButtonItem.enabled = managedObjectContext.hasChanges;
+	self.navigationItem.rightBarButtonItem.enabled = self.managedObjectContext.hasChanges;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -147,7 +155,7 @@ static NSArray *kColorNames;
 	
 	cell.textLabel.text = colorName;
 	cell.imageView.image = [[self class] colorWellImageForColor:[UIColor colorWithHexString:hexColor]];
-	BOOL isSelected = [zone.hexColor isEqualToString:hexColor];
+	BOOL isSelected = [self.sectionZone.hexColor isEqualToString:hexColor];
 	cell.accessoryType = isSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 	
 	return cell;
@@ -175,14 +183,14 @@ static NSArray *kColorNames;
 		UITableViewCell *cell = [someTableView cellForRowAtIndexPath:indexPath];
 		NSString *hexColor = [kColorHexKeys objectAtIndex:index];
 		
-		NSUInteger indexOfOldSelection = [kColorHexKeys indexOfObject:zone.hexColor];
+		NSUInteger indexOfOldSelection = [kColorHexKeys indexOfObject:self.sectionZone.hexColor];
 		
 		if (cell.accessoryType == UITableViewCellAccessoryNone)
 		{
 			UITableViewCell *oldCell = [someTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexOfOldSelection inSection:1]];
 			oldCell.accessoryType = UITableViewCellAccessoryNone;
 			cell.accessoryType = UITableViewCellAccessoryCheckmark;
-			zone.hexColor = hexColor;
+			self.sectionZone.hexColor = hexColor;
 		}
 	}
 }
@@ -205,13 +213,13 @@ static NSArray *kColorNames;
 
 - (IBAction)textFieldValueDidChange:(id)sender
 {
-	zone.name = nameTextField.text;
-	self.navigationItem.title = zone.name;
+	self.sectionZone.name = nameTextField.text;
+	self.navigationItem.title = self.sectionZone.name;
 }
 
 - (void)dealloc
 {
-	[zone release];
+	[_sectionZone release];
 	[super dealloc];
 }
 

@@ -12,28 +12,88 @@
 #import "ScheduleViewController.h"
 #import "ZoneDemandGraphViewController.h"
 
+#import "BRModelObjects.h"
+#import "BreakProcessingOperation.h"
+
+
 
 BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplication sharedApplication] delegate]; };
 
 
 @implementation BreaksAppDelegate
 
-@synthesize window = _window, coreDataController;
-
-- (void)dealloc
-{
-    [_window release];
-    [coreDataController release];
-    [super dealloc];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
-    coreDataController = [AACoreDataController new];
+    _coreDataController = [[AACoreDataController alloc] initWithModelName:@"BRBreaks"];
 	
-    ScheduleViewController *scheduleViewController = [[[ScheduleViewController alloc] initWithNibName:nil managedObjectContext:coreDataController.managedObjectContext] autorelease];
+    if (YES)
+    {
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDate *now = [NSDate date];
+        NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+        NSDateComponents *dateComponents = [calendar components:unitFlags fromDate:now];
+        NSDate *today = [calendar dateFromComponents:dateComponents];
+        
+        NSMutableSet *shifts = [NSMutableSet new];
+        
+        BRZone *evenZone = [NSEntityDescription insertNewObjectForEntityForName:@"BRZone" inManagedObjectContext:_coreDataController.managedObjectContext];
+        BRZone *oddZone = [NSEntityDescription insertNewObjectForEntityForName:@"BRZone" inManagedObjectContext:_coreDataController.managedObjectContext];
+        
+        evenZone.hexColor = @"c63e3e";
+        oddZone.hexColor = @"4d9ee3";
+        
+        evenZone.name = @"Sales";
+        oddZone.name = @"Setups";
+        
+        evenZone.section = @"Red Zone";
+        oddZone.section = @"Family Room";
+        
+        for (int i = 0; i < 40; i++)
+        {
+            BREmployee *employee = [NSEntityDescription insertNewObjectForEntityForName:@"BREmployee" inManagedObjectContext:_coreDataController.managedObjectContext];
+            BRShift *shift = [NSEntityDescription insertNewObjectForEntityForName:@"BRShift" inManagedObjectContext:_coreDataController.managedObjectContext];
+            BRZoning *zoningOne = [NSEntityDescription insertNewObjectForEntityForName:@"BRZoning" inManagedObjectContext:_coreDataController.managedObjectContext];
+            BRZoning *zoningTwo = [NSEntityDescription insertNewObjectForEntityForName:@"BRZoning" inManagedObjectContext:_coreDataController.managedObjectContext];
+            
+            zoningOne.shift = shift;
+            zoningTwo.shift = shift;
+            shift.employee = employee;
+            employee.name = @"Fred Fergeson";
+            
+            NSTimeInterval shiftStart = (random() % 7) * 3600 + 25200;
+            NSTimeInterval shiftEnd = shiftStart + 14400 + ((random() % 10) * 1800);
+            
+            shift.duration.scheduledStartDate = [today dateByAddingTimeInterval:shiftStart];
+            shift.duration.scheduledEndDate = [today dateByAddingTimeInterval:shiftEnd];
+            
+            zoningOne.duration.scheduledStartDate = shift.duration.scheduledStartDate;
+            zoningOne.duration.scheduledEndDate = [shift.duration.scheduledEndDate dateByAddingTimeInterval:(shift.duration.scheduledDuration) / 2];
+            zoningTwo.duration.scheduledStartDate = zoningOne.duration.scheduledEndDate;
+            zoningTwo.duration.scheduledEndDate = shift.duration.scheduledEndDate;
+            
+            zoningOne.sectionZone = i % 2 > 0 || i == 1 ? oddZone : evenZone;
+            zoningTwo.sectionZone = i % 2 > 0 || i == 1 ? evenZone : oddZone;
+            
+            [shifts addObject:shift];
+        }
+        
+        [_coreDataController save];
+        [shifts makeObjectsPerformSelector:@selector(standardizeBreaks)];
+        [_coreDataController save];
+        [shifts release];
+        
+        NSOperationQueue *queue = [NSOperationQueue new];
+        BreakProcessingOperation *operation = [BreakProcessingOperation new];
+        operation.persistentStoreCoordinator = _coreDataController.persistentStoreCoordinator;
+        //[queue addOperation:operation];
+        
+        [queue release];
+    }
+    
+    ScheduleViewController *scheduleViewController = [[[ScheduleViewController alloc] initWithNibName:nil bundle:nil] autorelease];
+    scheduleViewController.managedObjectContext = _coreDataController.managedObjectContext;
 
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:scheduleViewController];
 	navigationController.view.backgroundColor = [UIColor underPageBackgroundColor];
@@ -69,7 +129,7 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
-    [coreDataController saveContext];
+    [_coreDataController save];
 }
 
 #pragma mark - Application's Documents directory
@@ -78,6 +138,13 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (void)dealloc
+{
+    [_window release];
+    [_coreDataController release];
+    [super dealloc];
 }
 
 @end

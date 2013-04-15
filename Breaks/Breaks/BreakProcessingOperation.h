@@ -6,7 +6,8 @@
 //  Copyright (c) 2012 Apple, Stamford. All rights reserved.
 //
 
-#import "AACoreDataOperation.h"
+#import <AAKit/AAKit.h>
+
 
 @interface BreakProcessingOperation : AACoreDataOperation
 

@@ -39,7 +39,7 @@
 	
 	ScheduleViewBackgroundView *backgroundView;
 	ScheduleViewBackgroundView *rulerView;
-	ScheduleViewTimeheadView *timeheadView;
+	UIImageView *timeheadView;
 	
 	
 	CGFloat timeheadProgress;

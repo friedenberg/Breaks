@@ -8,8 +8,6 @@
 
 #import "AADemandGraphColumnView.h"
 
-#import "CoreGraphics+Convenience.h"
-
 
 @implementation AADemandGraphColumnView
 

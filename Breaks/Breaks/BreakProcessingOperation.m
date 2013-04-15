@@ -8,15 +8,12 @@
 
 #import "BreakProcessingOperation.h"
 
-#import "Break.h"
-#import "Zoning.h"
-#import "Shift.h"
-#import "Zone.h"
+#import "BRModelObjects.h"
 
 
 @interface BreakProcessingOperation ()
 
-- (void)processBreaksForZone:(Zone *)zone;
+- (void)processBreaksForZone:(BRZone *)zone;
 
 @end
 
@@ -26,14 +23,19 @@
 {
 	NSFetchRequest *request = [NSFetchRequest new];
 	[request setEntity:[NSEntityDescription entityForName:@"Zone" inManagedObjectContext:managedObjectContext]];
-	NSArray *zones = [managedObjectContext executeFetchRequest:request error:&incomingError];
-	[self commitIncomingError];
+    __block NSArray *zones = nil;
+    
+    [self performBlockAndCatchError:^(NSError **someError) {
+        
+        zones = [managedObjectContext executeFetchRequest:request error:someError];
+        
+    }];
 	
-	for (Zone *zone in zones)
+	for (BRZone *zone in zones)
 		[self processBreaksForZone:zone];
 }
 
-- (void)processBreaksForZone:(Zone *)zone
+- (void)processBreaksForZone:(BRZone *)zone
 {
 //	NSSet *zonings = zone.zonings;
 //	NSUInteger minimum = [[zonings valueForKeyPath:@"@min.start"] unsignedIntegerValue];

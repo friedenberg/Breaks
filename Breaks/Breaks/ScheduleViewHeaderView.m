@@ -52,8 +52,8 @@
 	CGRect labelFrame = nameLabel.frame;
 	CGRect imageRect = imageView.frame;
 	
-	labelFrame.origin.x = 4;
-	labelFrame.size.width = bounds.size.width - (contentPadding / 2);
+	labelFrame.origin.x = contentPadding;
+	labelFrame.size.width = bounds.size.width - contentPadding;
 	labelFrame.origin.y = floor(CGRectGetMidY(bounds) - labelFrame.size.height / 2);
 	
 	if (imageView.image)

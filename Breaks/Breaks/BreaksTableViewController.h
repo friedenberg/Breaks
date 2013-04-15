@@ -6,7 +6,8 @@
 //  Copyright (c) 2012 Apple, Stamford. All rights reserved.
 //
 
-#import "AAFetchedResultsTableViewController.h"
+#import <AAKit/AAKit.h>
+
 
 @class BreaksTableViewController;
 
@@ -22,8 +23,6 @@
 	IBOutlet UISegmentedControl *segmentedControl;
 	IBOutlet UIBarButtonItem *segmentedControlBarButtonItem;
 }
-
-- (id)initWithDelegate:(id <BreaksTableViewControllerDelegate>)delegate managedObjectContext:(NSManagedObjectContext *)context;
 
 @property (nonatomic, assign) id <BreaksTableViewControllerDelegate> delegate;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;

@@ -47,7 +47,7 @@
 		
 		float round = fmodf(i, 2);
 		BOOL minorTick = round != 0 && round != 1;
-		
+
 		if (minorTick && self.showsRuler)
 		{
 			currentSegmentRect.size.height = rulerHeight;

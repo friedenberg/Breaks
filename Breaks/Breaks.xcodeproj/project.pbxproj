@@ -15,7 +15,7 @@
 		497FA9DE152FD43F00636DE1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 497FA9DC152FD43F00636DE1 /* InfoPlist.strings */; };
 		497FA9E0152FD43F00636DE1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 497FA9DF152FD43F00636DE1 /* main.m */; };
 		497FA9E4152FD43F00636DE1 /* BreaksAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 497FA9E3152FD43F00636DE1 /* BreaksAppDelegate.m */; };
-		497FA9E7152FD43F00636DE1 /* Breaks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 497FA9E5152FD43F00636DE1 /* Breaks.xcdatamodeld */; };
+		497FA9E7152FD43F00636DE1 /* BRBreaks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 497FA9E5152FD43F00636DE1 /* BRBreaks.xcdatamodeld */; };
 		497FA9F3152FD43F00636DE1 /* ScheduleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 497FA9F1152FD43F00636DE1 /* ScheduleView.xib */; };
 		497FA9FE152FD5CF00636DE1 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 497FA9FD152FD5CF00636DE1 /* ScheduleViewController.m */; };
 		D9098F4315800E480082A8D8 /* shiftIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D9098F4115800E470082A8D8 /* shiftIcon.png */; };
@@ -50,20 +50,26 @@
 		D9A3D942157A5D55002860AF /* ScheduleViewDataTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A3D941157A5D55002860AF /* ScheduleViewDataTypes.m */; };
 		D9A3D946157A663A002860AF /* BreaksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A3D944157A663A002860AF /* BreaksTableViewController.m */; };
 		D9A3D947157A663A002860AF /* BreaksTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A3D945157A663A002860AF /* BreaksTableView.xib */; };
-		D9A3D94D157A9616002860AF /* ScheduledObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A3D94C157A9616002860AF /* ScheduledObject.m */; };
 		D9A8DB57155B486400C5BFF8 /* ZonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A8DB55155B486400C5BFF8 /* ZonesTableViewController.m */; };
 		D9A8DB58155B486400C5BFF8 /* ZonesTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A8DB56155B486400C5BFF8 /* ZonesTableView.xib */; };
 		D9AAD3A11585779C00407931 /* NSDate+ScheduleViewDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AAD3A01585779C00407931 /* NSDate+ScheduleViewDateAdditions.m */; };
 		D9B31222156D9E86001EA4A3 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B31221156D9E86001EA4A3 /* UIColor-Expanded.m */; };
-		D9B31225156DA8C8001EA4A3 /* Zone.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B31224156DA8C8001EA4A3 /* Zone.m */; };
-		D9B31228156DA8C8001EA4A3 /* Shift.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B31227156DA8C8001EA4A3 /* Shift.m */; };
-		D9B3122B156DA8C8001EA4A3 /* Zoning.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3122A156DA8C8001EA4A3 /* Zoning.m */; };
-		D9B3122E156DA8C8001EA4A3 /* Employee.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B3122D156DA8C8001EA4A3 /* Employee.m */; };
-		D9B31231156DA8C9001EA4A3 /* Break.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B31230156DA8C9001EA4A3 /* Break.m */; };
-		D9BAC33C154A3A240078B4DC /* ScheduleViewTimeheadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BAC33B154A3A240078B4DC /* ScheduleViewTimeheadView.m */; };
 		D9C1DB37158E289000571643 /* UIBezierPath+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C1DB36158E289000571643 /* UIBezierPath+Convenience.m */; };
 		D9C1DB3B158E5FD300571643 /* AAGraphLayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C1DB3A158E5FD300571643 /* AAGraphLayerView.m */; };
 		D9E2AE4B1712F9E100C96E24 /* libAAKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E2AE4A1712F9E100C96E24 /* libAAKit.a */; };
+		D9E2AE56171383EB00C96E24 /* timeheadCarot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9E2AE54171383EA00C96E24 /* timeheadCarot.png */; };
+		D9E2AE57171383EB00C96E24 /* timeheadCarot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9E2AE55171383EB00C96E24 /* timeheadCarot@2x.png */; };
+		D9E2AE5B1713942F00C96E24 /* BRDuration+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE5A1713942F00C96E24 /* BRDuration+Additions.m */; };
+		D9E2AE5E171395F400C96E24 /* BRStoreShift+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE5D171395F400C96E24 /* BRStoreShift+Additions.m */; };
+		D9E2AE911713996100C96E24 /* BRZoning.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE901713996000C96E24 /* BRZoning.m */; };
+		D9E2AE941713996300C96E24 /* BRDuration.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE931713996200C96E24 /* BRDuration.m */; };
+		D9E2AE971713996400C96E24 /* BRShift.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE961713996300C96E24 /* BRShift.m */; };
+		D9E2AE9A1713996500C96E24 /* BRSection.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE991713996500C96E24 /* BRSection.m */; };
+		D9E2AE9D1713996500C96E24 /* BRRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE9C1713996500C96E24 /* BRRule.m */; };
+		D9E2AEA01713996700C96E24 /* BREmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE9F1713996600C96E24 /* BREmployee.m */; };
+		D9E2AEA31713996700C96E24 /* BRZone.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA21713996700C96E24 /* BRZone.m */; };
+		D9E2AEA61713996800C96E24 /* BRBreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA51713996800C96E24 /* BRBreak.m */; };
+		D9E2AEA91713A91F00C96E24 /* BRShiftBreak+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA81713A91D00C96E24 /* BRShiftBreak+Additions.m */; };
 		D9E82C63158D57EE00A9E451 /* ZoneDemandGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E82C61158D57EE00A9E451 /* ZoneDemandGraphViewController.m */; };
 		D9E82C64158D57EE00A9E451 /* ZoneDemandGraphView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E82C62158D57EE00A9E451 /* ZoneDemandGraphView.xib */; };
 		D9EA6F5D158D51B1002B8333 /* AADemandGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA6F5C158D51B1002B8333 /* AADemandGraphView.m */; };
@@ -84,7 +90,7 @@
 		497FA9E1152FD43F00636DE1 /* Breaks-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Breaks-Prefix.pch"; sourceTree = "<group>"; };
 		497FA9E2152FD43F00636DE1 /* BreaksAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BreaksAppDelegate.h; sourceTree = "<group>"; };
 		497FA9E3152FD43F00636DE1 /* BreaksAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BreaksAppDelegate.m; sourceTree = "<group>"; };
-		497FA9E6152FD43F00636DE1 /* Breaks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Breaks.xcdatamodel; sourceTree = "<group>"; };
+		497FA9E6152FD43F00636DE1 /* BRBreaks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BRBreaks.xcdatamodel; sourceTree = "<group>"; };
 		497FA9F2152FD43F00636DE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ScheduleView.xib; sourceTree = "<group>"; };
 		497FA9FC152FD5CF00636DE1 /* ScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewController.h; sourceTree = "<group>"; };
 		497FA9FD152FD5CF00636DE1 /* ScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleViewController.m; sourceTree = "<group>"; };
@@ -141,8 +147,6 @@
 		D9A3D943157A663A002860AF /* BreaksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BreaksTableViewController.h; sourceTree = "<group>"; };
 		D9A3D944157A663A002860AF /* BreaksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BreaksTableViewController.m; sourceTree = "<group>"; };
 		D9A3D945157A663A002860AF /* BreaksTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BreaksTableView.xib; sourceTree = "<group>"; };
-		D9A3D94B157A9616002860AF /* ScheduledObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduledObject.h; sourceTree = "<group>"; };
-		D9A3D94C157A9616002860AF /* ScheduledObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduledObject.m; sourceTree = "<group>"; };
 		D9A8DB54155B486400C5BFF8 /* ZonesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZonesTableViewController.h; sourceTree = "<group>"; };
 		D9A8DB55155B486400C5BFF8 /* ZonesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZonesTableViewController.m; sourceTree = "<group>"; };
 		D9A8DB56155B486400C5BFF8 /* ZonesTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZonesTableView.xib; sourceTree = "<group>"; };
@@ -150,24 +154,37 @@
 		D9AAD3A01585779C00407931 /* NSDate+ScheduleViewDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ScheduleViewDateAdditions.m"; sourceTree = "<group>"; };
 		D9B31220156D9E86001EA4A3 /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor-Expanded.h"; sourceTree = "<group>"; };
 		D9B31221156D9E86001EA4A3 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor-Expanded.m"; sourceTree = "<group>"; };
-		D9B31223156DA8C8001EA4A3 /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zone.h; sourceTree = "<group>"; };
-		D9B31224156DA8C8001EA4A3 /* Zone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zone.m; sourceTree = "<group>"; };
-		D9B31226156DA8C8001EA4A3 /* Shift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shift.h; sourceTree = "<group>"; };
-		D9B31227156DA8C8001EA4A3 /* Shift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shift.m; sourceTree = "<group>"; };
-		D9B31229156DA8C8001EA4A3 /* Zoning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zoning.h; sourceTree = "<group>"; };
-		D9B3122A156DA8C8001EA4A3 /* Zoning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Zoning.m; sourceTree = "<group>"; };
-		D9B3122C156DA8C8001EA4A3 /* Employee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Employee.h; sourceTree = "<group>"; };
-		D9B3122D156DA8C8001EA4A3 /* Employee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Employee.m; sourceTree = "<group>"; };
-		D9B3122F156DA8C9001EA4A3 /* Break.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Break.h; sourceTree = "<group>"; };
-		D9B31230156DA8C9001EA4A3 /* Break.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Break.m; sourceTree = "<group>"; };
-		D9B31232156DABAF001EA4A3 /* CoreDataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataModels.h; sourceTree = "<group>"; };
-		D9BAC33A154A3A240078B4DC /* ScheduleViewTimeheadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewTimeheadView.h; sourceTree = "<group>"; };
-		D9BAC33B154A3A240078B4DC /* ScheduleViewTimeheadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleViewTimeheadView.m; sourceTree = "<group>"; };
+		D9B31232156DABAF001EA4A3 /* BRModelObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRModelObjects.h; sourceTree = "<group>"; };
 		D9C1DB35158E289000571643 /* UIBezierPath+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+Convenience.h"; sourceTree = "<group>"; };
 		D9C1DB36158E289000571643 /* UIBezierPath+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Convenience.m"; sourceTree = "<group>"; };
 		D9C1DB39158E5FD300571643 /* AAGraphLayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAGraphLayerView.h; sourceTree = "<group>"; };
 		D9C1DB3A158E5FD300571643 /* AAGraphLayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAGraphLayerView.m; sourceTree = "<group>"; };
 		D9E2AE4A1712F9E100C96E24 /* libAAKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAAKit.a; path = "../AAKit/build/Release-iphoneos/libAAKit.a"; sourceTree = "<group>"; };
+		D9E2AE54171383EA00C96E24 /* timeheadCarot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timeheadCarot.png; sourceTree = "<group>"; };
+		D9E2AE55171383EB00C96E24 /* timeheadCarot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeheadCarot@2x.png"; sourceTree = "<group>"; };
+		D9E2AE581713924400C96E24 /* BRModelObjectPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRModelObjectPrimitives.h; sourceTree = "<group>"; };
+		D9E2AE591713942E00C96E24 /* BRDuration+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BRDuration+Additions.h"; sourceTree = "<group>"; };
+		D9E2AE5A1713942F00C96E24 /* BRDuration+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BRDuration+Additions.m"; sourceTree = "<group>"; };
+		D9E2AE5C171395F400C96E24 /* BRStoreShift+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BRStoreShift+Additions.h"; sourceTree = "<group>"; };
+		D9E2AE5D171395F400C96E24 /* BRStoreShift+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BRStoreShift+Additions.m"; sourceTree = "<group>"; };
+		D9E2AE8F1713996000C96E24 /* BRZoning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRZoning.h; sourceTree = "<group>"; };
+		D9E2AE901713996000C96E24 /* BRZoning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRZoning.m; sourceTree = "<group>"; };
+		D9E2AE921713996200C96E24 /* BRDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRDuration.h; sourceTree = "<group>"; };
+		D9E2AE931713996200C96E24 /* BRDuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRDuration.m; sourceTree = "<group>"; };
+		D9E2AE951713996300C96E24 /* BRShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRShift.h; sourceTree = "<group>"; };
+		D9E2AE961713996300C96E24 /* BRShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRShift.m; sourceTree = "<group>"; };
+		D9E2AE981713996400C96E24 /* BRSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRSection.h; sourceTree = "<group>"; };
+		D9E2AE991713996500C96E24 /* BRSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRSection.m; sourceTree = "<group>"; };
+		D9E2AE9B1713996500C96E24 /* BRRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRRule.h; sourceTree = "<group>"; };
+		D9E2AE9C1713996500C96E24 /* BRRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRRule.m; sourceTree = "<group>"; };
+		D9E2AE9E1713996600C96E24 /* BREmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BREmployee.h; sourceTree = "<group>"; };
+		D9E2AE9F1713996600C96E24 /* BREmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BREmployee.m; sourceTree = "<group>"; };
+		D9E2AEA11713996700C96E24 /* BRZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRZone.h; sourceTree = "<group>"; };
+		D9E2AEA21713996700C96E24 /* BRZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRZone.m; sourceTree = "<group>"; };
+		D9E2AEA41713996800C96E24 /* BRBreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRBreak.h; sourceTree = "<group>"; };
+		D9E2AEA51713996800C96E24 /* BRBreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRBreak.m; sourceTree = "<group>"; };
+		D9E2AEA71713A91D00C96E24 /* BRShiftBreak+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BRShiftBreak+Additions.h"; sourceTree = "<group>"; };
+		D9E2AEA81713A91D00C96E24 /* BRShiftBreak+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BRShiftBreak+Additions.m"; sourceTree = "<group>"; };
 		D9E82C60158D57EE00A9E451 /* ZoneDemandGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneDemandGraphViewController.h; sourceTree = "<group>"; };
 		D9E82C61158D57EE00A9E451 /* ZoneDemandGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneDemandGraphViewController.m; sourceTree = "<group>"; };
 		D9E82C62158D57EE00A9E451 /* ZoneDemandGraphView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZoneDemandGraphView.xib; sourceTree = "<group>"; };
@@ -261,7 +278,7 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		D91F337C157BB09300A69CD8 /* Zones button */ = {
+		D91F337C157BB09300A69CD8 /* Zones */ = {
 			isa = PBXGroup;
 			children = (
 				D9A8DB54155B486400C5BFF8 /* ZonesTableViewController.h */,
@@ -270,7 +287,7 @@
 				D91F337F157BB0E300A69CD8 /* ZoneEditViewController.m */,
 				D9F2C31D157BBF6900DFFC44 /* ZonesDefaultColors.plist */,
 			);
-			name = "Zones button";
+			name = Zones;
 			sourceTree = "<group>";
 		};
 		D923C6ED154DCAE30022FEAC /* AABadgeView */ = {
@@ -306,8 +323,8 @@
 		D9956A52153461A30054F801 /* ScheduleView Subviews */ = {
 			isa = PBXGroup;
 			children = (
-				D9BAC33A154A3A240078B4DC /* ScheduleViewTimeheadView.h */,
-				D9BAC33B154A3A240078B4DC /* ScheduleViewTimeheadView.m */,
+				D9E2AE54171383EA00C96E24 /* timeheadCarot.png */,
+				D9E2AE55171383EB00C96E24 /* timeheadCarot@2x.png */,
 				D99627661531CE550071C22D /* ScheduleViewBackgroundView.h */,
 				D99627671531CE550071C22D /* ScheduleViewBackgroundView.m */,
 				D993FF9C1585877A0030528F /* ScheduleView cells */,
@@ -334,20 +351,31 @@
 		D995FCB0155DD66700A3357A /* Core Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				497FA9E5152FD43F00636DE1 /* Breaks.xcdatamodeld */,
-				D9B31232156DABAF001EA4A3 /* CoreDataModels.h */,
-				D9A3D94B157A9616002860AF /* ScheduledObject.h */,
-				D9A3D94C157A9616002860AF /* ScheduledObject.m */,
-				D9B3122F156DA8C9001EA4A3 /* Break.h */,
-				D9B31230156DA8C9001EA4A3 /* Break.m */,
-				D9B3122C156DA8C8001EA4A3 /* Employee.h */,
-				D9B3122D156DA8C8001EA4A3 /* Employee.m */,
-				D9B31229156DA8C8001EA4A3 /* Zoning.h */,
-				D9B3122A156DA8C8001EA4A3 /* Zoning.m */,
-				D9B31226156DA8C8001EA4A3 /* Shift.h */,
-				D9B31227156DA8C8001EA4A3 /* Shift.m */,
-				D9B31223156DA8C8001EA4A3 /* Zone.h */,
-				D9B31224156DA8C8001EA4A3 /* Zone.m */,
+				497FA9E5152FD43F00636DE1 /* BRBreaks.xcdatamodeld */,
+				D9B31232156DABAF001EA4A3 /* BRModelObjects.h */,
+				D9E2AE581713924400C96E24 /* BRModelObjectPrimitives.h */,
+				D9E2AE591713942E00C96E24 /* BRDuration+Additions.h */,
+				D9E2AE5A1713942F00C96E24 /* BRDuration+Additions.m */,
+				D9E2AE5C171395F400C96E24 /* BRStoreShift+Additions.h */,
+				D9E2AE5D171395F400C96E24 /* BRStoreShift+Additions.m */,
+				D9E2AEA71713A91D00C96E24 /* BRShiftBreak+Additions.h */,
+				D9E2AEA81713A91D00C96E24 /* BRShiftBreak+Additions.m */,
+				D9E2AEA41713996800C96E24 /* BRBreak.h */,
+				D9E2AEA51713996800C96E24 /* BRBreak.m */,
+				D9E2AEA11713996700C96E24 /* BRZone.h */,
+				D9E2AEA21713996700C96E24 /* BRZone.m */,
+				D9E2AE9E1713996600C96E24 /* BREmployee.h */,
+				D9E2AE9F1713996600C96E24 /* BREmployee.m */,
+				D9E2AE9B1713996500C96E24 /* BRRule.h */,
+				D9E2AE9C1713996500C96E24 /* BRRule.m */,
+				D9E2AE981713996400C96E24 /* BRSection.h */,
+				D9E2AE991713996500C96E24 /* BRSection.m */,
+				D9E2AE951713996300C96E24 /* BRShift.h */,
+				D9E2AE961713996300C96E24 /* BRShift.m */,
+				D9E2AE921713996200C96E24 /* BRDuration.h */,
+				D9E2AE931713996200C96E24 /* BRDuration.m */,
+				D9E2AE8F1713996000C96E24 /* BRZoning.h */,
+				D9E2AE901713996000C96E24 /* BRZoning.m */,
 			);
 			name = "Core Data Model";
 			sourceTree = "<group>";
@@ -416,7 +444,7 @@
 		D9A8DB50155B47AB00C5BFF8 /* Popovers */ = {
 			isa = PBXGroup;
 			children = (
-				D91F337C157BB09300A69CD8 /* Zones button */,
+				D91F337C157BB09300A69CD8 /* Zones */,
 				D9A3D943157A663A002860AF /* BreaksTableViewController.h */,
 				D9A3D944157A663A002860AF /* BreaksTableViewController.m */,
 			);
@@ -508,6 +536,8 @@
 				D93E4AC71586E065002917CC /* fifteenIcon.png in Resources */,
 				D93E4AC81586E065002917CC /* fifteenIcon@2x.png in Resources */,
 				D9E82C64158D57EE00A9E451 /* ZoneDemandGraphView.xib in Resources */,
+				D9E2AE56171383EB00C96E24 /* timeheadCarot.png in Resources */,
+				D9E2AE57171383EB00C96E24 /* timeheadCarot@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,7 +550,7 @@
 			files = (
 				497FA9E0152FD43F00636DE1 /* main.m in Sources */,
 				497FA9E4152FD43F00636DE1 /* BreaksAppDelegate.m in Sources */,
-				497FA9E7152FD43F00636DE1 /* Breaks.xcdatamodeld in Sources */,
+				497FA9E7152FD43F00636DE1 /* BRBreaks.xcdatamodeld in Sources */,
 				497FA9FE152FD5CF00636DE1 /* ScheduleViewController.m in Sources */,
 				4911406015305AD5008D96D5 /* AAObjectController.m in Sources */,
 				D996275F1531C0CC0071C22D /* ScheduleView.m in Sources */,
@@ -528,7 +558,6 @@
 				D99627681531CE550071C22D /* ScheduleViewBackgroundView.m in Sources */,
 				D95CB816154626E20077B793 /* ScheduleViewHeaderView.m in Sources */,
 				D995570D1546CC1600EF518F /* ScheduleViewBreakView.m in Sources */,
-				D9BAC33C154A3A240078B4DC /* ScheduleViewTimeheadView.m in Sources */,
 				D998BB25154B727F0028114E /* BreakProcessingOperation.m in Sources */,
 				D923C6DF154DC8300022FEAC /* AABadgeView.m in Sources */,
 				D923C6F0154DF9930022FEAC /* ScheduleViewCell.m in Sources */,
@@ -536,15 +565,9 @@
 				D995FCB4155DD69C00A3357A /* AAOffsetMutableArray.m in Sources */,
 				D997E35C156C784500F4F1DD /* AAViewRecycler.m in Sources */,
 				D9B31222156D9E86001EA4A3 /* UIColor-Expanded.m in Sources */,
-				D9B31225156DA8C8001EA4A3 /* Zone.m in Sources */,
-				D9B31228156DA8C8001EA4A3 /* Shift.m in Sources */,
-				D9B3122B156DA8C8001EA4A3 /* Zoning.m in Sources */,
-				D9B3122E156DA8C8001EA4A3 /* Employee.m in Sources */,
-				D9B31231156DA8C9001EA4A3 /* Break.m in Sources */,
 				D9A1B7BC1576499B004A9246 /* ScheduleDetailViewController.m in Sources */,
 				D9A3D942157A5D55002860AF /* ScheduleViewDataTypes.m in Sources */,
 				D9A3D946157A663A002860AF /* BreaksTableViewController.m in Sources */,
-				D9A3D94D157A9616002860AF /* ScheduledObject.m in Sources */,
 				D91F3380157BB0E300A69CD8 /* ZoneEditViewController.m in Sources */,
 				D9AAD3A11585779C00407931 /* NSDate+ScheduleViewDateAdditions.m in Sources */,
 				D9EA6F5D158D51B1002B8333 /* AADemandGraphView.m in Sources */,
@@ -553,6 +576,17 @@
 				D9C1DB3B158E5FD300571643 /* AAGraphLayerView.m in Sources */,
 				D968913C1590B3B300A34709 /* AADemandGraphColumnView.m in Sources */,
 				D9669D261594C477005DA143 /* UIViewController+Convenience.m in Sources */,
+				D9E2AE5B1713942F00C96E24 /* BRDuration+Additions.m in Sources */,
+				D9E2AE5E171395F400C96E24 /* BRStoreShift+Additions.m in Sources */,
+				D9E2AE911713996100C96E24 /* BRZoning.m in Sources */,
+				D9E2AE941713996300C96E24 /* BRDuration.m in Sources */,
+				D9E2AE971713996400C96E24 /* BRShift.m in Sources */,
+				D9E2AE9A1713996500C96E24 /* BRSection.m in Sources */,
+				D9E2AE9D1713996500C96E24 /* BRRule.m in Sources */,
+				D9E2AEA01713996700C96E24 /* BREmployee.m in Sources */,
+				D9E2AEA31713996700C96E24 /* BRZone.m in Sources */,
+				D9E2AEA61713996800C96E24 /* BRBreak.m in Sources */,
+				D9E2AEA91713A91F00C96E24 /* BRShiftBreak+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,13 +721,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		497FA9E5152FD43F00636DE1 /* Breaks.xcdatamodeld */ = {
+		497FA9E5152FD43F00636DE1 /* BRBreaks.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				497FA9E6152FD43F00636DE1 /* Breaks.xcdatamodel */,
+				497FA9E6152FD43F00636DE1 /* BRBreaks.xcdatamodel */,
 			);
-			currentVersion = 497FA9E6152FD43F00636DE1 /* Breaks.xcdatamodel */;
-			path = Breaks.xcdatamodeld;
+			currentVersion = 497FA9E6152FD43F00636DE1 /* BRBreaks.xcdatamodel */;
+			path = BRBreaks.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -10,11 +10,7 @@
 
 #import "AAObjectController.h"
 
-#import "Break.h"
-#import "Shift.h"
-#import "Employee.h"
-
-#import "UIBarButtonItem+Additions.h"
+#import "BRModelObjects.h"
 
 
 @interface BreaksTableViewController ()
@@ -37,15 +33,13 @@ static UIColor *invalidDetailTextLabelColor;
 	}
 }
 
-- (id)initWithDelegate:(id <BreaksTableViewControllerDelegate>)someObject managedObjectContext:(NSManagedObjectContext *)context
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-	if (self = [super initWithNibName:@"BreaksTableView" managedObjectContext:context])
-	{
-		delegate = someObject;
-		calendar = [[NSCalendar currentCalendar] retain];
-	}
-	
-	return self;
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        calendar = [[NSCalendar currentCalendar] retain];
+    }
+    
+    return self;
 }
 
 @dynamic delegate;
@@ -110,7 +104,7 @@ static UIColor *invalidDetailTextLabelColor;
 
 - (UITableViewCell *)tableView:(UITableView *)someTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	Break *breakObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	BRBreak *breakObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	static NSString *identifier = @"Break";
 	UITableViewCell *cell = [someTableView dequeueReusableCellWithIdentifier:identifier];
 	
@@ -125,16 +119,16 @@ static UIColor *invalidDetailTextLabelColor;
 	NSString *detailText = nil;
 	UIColor *detailColor = nil;
 	
-	if ([breakObject.timeTaken isEqualToDate:[NSDate distantFuture]])
+	if ([breakObject.duration.actualStartDate isEqualToDate:[NSDate distantFuture]])
 	{
-		detailText = [NSString stringWithFormat:@"Starts at %@", [dateFormatter stringFromDate:breakObject.start]];
-		detailColor = [[NSDate date] isEarlierThanDate:breakObject.start] ? defaultDetailTextLabelTextColor : invalidDetailTextLabelColor;
+		detailText = [NSString stringWithFormat:@"Starts at %@", [dateFormatter stringFromDate:breakObject.duration.scheduledStartDate]];
+		detailColor = [[NSDate date] isEarlierThanDate:breakObject.duration.scheduledStartDate] ? defaultDetailTextLabelTextColor : invalidDetailTextLabelColor;
 	}
 	else 
 	{
-		NSTimeInterval duration = breakObject.duration;
-		NSDate *endDate = [breakObject.timeTaken dateByAddingTimeInterval:duration];
-		NSTimeInterval remainingInterval = [endDate timeIntervalSinceDate:[NSDate date]];
+		BRTimeInterval duration = breakObject.duration.scheduledStartDate;
+		NSDate *endDate = [breakObject.duration.actualStartDate dateByAddingTimeInterval:duration];
+		BRTimeInterval remainingInterval = [endDate timeIntervalSinceDate:[NSDate date]];
 		
 		NSInteger remainingSeconds = fmod(remainingInterval, 60);
 		NSInteger remainingMinutes = (remainingInterval - remainingSeconds) / 60;
@@ -146,14 +140,14 @@ static UIColor *invalidDetailTextLabelColor;
 	cell.detailTextLabel.text = detailText;
 	cell.detailTextLabel.textColor = detailColor;
 	
-	cell.imageView.image = breakObject.duration == BreakTypeFifteen ? [UIImage imageNamed:@"fifteenIcon"] : [UIImage imageNamed:@"lunchIcon"];
+	cell.imageView.image = breakObject.duration.scheduledDuration == BRBreakTypeFifteen ? [UIImage imageNamed:@"fifteenIcon"] : [UIImage imageNamed:@"lunchIcon"];
 	
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	Break *breakObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	BRBreak *breakObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	[self.delegate breaksTableViewController:self didSelectBreakWithManagedObjectID:[breakObject objectID]];
 }
 

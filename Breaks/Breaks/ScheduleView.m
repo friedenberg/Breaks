@@ -12,14 +12,12 @@
 #import "ScheduleViewHeaderView.h"
 #import "ScheduleViewBackgroundView.h"
 #import "ScheduleViewBreakView.h"
-#import "ScheduleViewTimeheadView.h"
 
 #import "AAObjectController.h"
 #import "AAViewRecycler.h"
 
 #import "UIColor-Expanded.h"
 
-#import "NSRange+Convenience.h"
 #import "NSDate+ScheduleViewDateAdditions.h"
 
 
@@ -34,6 +32,15 @@
 @end
 
 @implementation ScheduleView
+
+static UIImage *kTimeheadCarotImage;
+
++ (void)initialize
+{
+    if (self == [ScheduleView class]) {
+        kTimeheadCarotImage = [[[UIImage imageNamed:@"timeheadCarot"] resizableImageWithCapInsets:UIEdgeInsetsMake(31, 0, 0, 0)] retain];
+    }
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -60,11 +67,16 @@
 		backgroundView = [[ScheduleViewBackgroundView alloc] initWithFrame:CGRectZero];
 		backgroundView.rulerHeight = self.rulerHeight;
 		backgroundView.hoursVisibleRange = self.hoursVisibleRange;
+        
 		zoningContentView = [[UIView alloc] initWithFrame:CGRectZero];
 		breakContentView = [[UIView alloc] initWithFrame:CGRectZero];
+        
 		rulerView = [[ScheduleViewBackgroundView alloc] initWithFrame:CGRectZero];
 		rulerView.showsRuler = YES;
-		timeheadView = [[ScheduleViewTimeheadView alloc] initWithFrame:CGRectZero];
+        rulerView.hoursVisibleRange = self.hoursVisibleRange;
+        rulerView.rulerHeight = self.rulerHeight;
+        
+		timeheadView = [[UIImageView alloc] initWithImage:kTimeheadCarotImage];
 		headerContentView = [[UIView alloc] initWithFrame:CGRectZero];
 		upperLeftFillView = [[UIView alloc] initWithFrame:CGRectZero];
 		upperLeftFillView.backgroundColor = [UIColor whiteColor];
@@ -321,9 +333,9 @@ static CGRect CGRectFloor(CGRect rect)
 	
 	//timehead positioning
 	CGRect timeheadFrame = bounds;
-	timeheadFrame.size.width = kScheduleViewTimeheadViewStandardWidth;
+	timeheadFrame.size.width = kTimeheadCarotImage.size.width;
 	timeheadFrame.origin.y = visibleRect.origin.y;
-	timeheadFrame.origin.x = floor((contentSize.width * timeheadProgress) - (kScheduleViewTimeheadViewStandardWidth / 2));
+	timeheadFrame.origin.x = floor((contentSize.width * timeheadProgress) - (kTimeheadCarotImage.size.width / 2));
 	timeheadView.frame = timeheadFrame;
 	
 	
@@ -741,8 +753,8 @@ static CGFloat AANumberOfIntervals(CGFloat originalValue, CGFloat intervalAmount
 
 static NSValue *NSValueFromScheduleViewObject(id <ScheduleViewObject> someObject, NSDate *relativeDate)
 {	
-	NSTimeInterval startTimeInterval = [someObject.start timeIntervalSinceDate:relativeDate];
-	NSTimeInterval endTimeInterval = [someObject.end timeIntervalSinceDate:relativeDate];
+	NSTimeInterval startTimeInterval = [someObject.scheduledStartDate timeIntervalSinceDate:relativeDate];
+	NSTimeInterval endTimeInterval = [someObject.scheduledEndDate timeIntervalSinceDate:relativeDate];
 	
 	static NSTimeInterval numberOfSecondsInAnHour = 3600;
 	

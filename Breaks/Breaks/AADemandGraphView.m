@@ -16,9 +16,6 @@
 
 #import "UIBezierPath+Convenience.h"
 
-#import "NSRange+Convenience.h"
-#import "CoreGraphics+Convenience.h"
-
 
 @interface AADemandGraphView ()
 
