@@ -20,4 +20,11 @@
 @dynamic zonings;
 @dynamic duration;
 
+- (void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    
+    [self setPrimitiveValue:[NSEntityDescription insertNewObjectForEntityForName:@"BRDuration" inManagedObjectContext:self.managedObjectContext] forKey:@"duration"];
+}
+
 @end

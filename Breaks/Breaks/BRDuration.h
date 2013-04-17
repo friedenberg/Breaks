@@ -14,14 +14,14 @@
 
 @class BRBreak, BRZoning, BRShift;
 
-@interface BRDuration : NSManagedObject <ScheduleViewObject>
+@interface BRDuration : NSManagedObject
 
 @property (nonatomic, strong) NSDate * scheduledStartDate;
 @property (nonatomic, strong) NSDate * scheduledEndDate;
 @property (nonatomic, strong) NSDate * actualStartDate;
 @property (nonatomic, strong) NSDate * actualEndDate;
-@property (nonatomic) BRTimeInterval actualDuration;
-@property (nonatomic) BRTimeInterval scheduledDuration;
+@property (nonatomic) double actualDuration;
+@property (nonatomic) double scheduledDuration;
 @property (nonatomic, strong) BRZoning *zoning;
 @property (nonatomic, strong) BRShift *shift;
 @property (nonatomic, strong) BRBreak *shiftBreak;

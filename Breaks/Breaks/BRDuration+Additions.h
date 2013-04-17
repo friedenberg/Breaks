@@ -9,8 +9,12 @@
 #import "BRDuration.h"
 
 
+@class BRScheduleDuration;
+
 @interface BRDuration (Additions)
 
 - (BOOL)containsDate:(NSDate *)date;
+
+@property (nonatomic, readonly) BRScheduleDuration *portableDuration;
 
 @end

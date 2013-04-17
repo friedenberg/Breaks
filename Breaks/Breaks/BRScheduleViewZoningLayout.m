@@ -47,7 +47,7 @@
         NSUIntegerEnumerate(zoningDurations.count, ^(NSUInteger zoningIndex) {
             
             CGRect frame = CGRectZero;
-            frame.origin.y = (rowHeight * zoningIndex);
+            frame.origin.y = (rowHeight * shiftIndex);
             frame.size.height = rowHeight;
             
             BRScheduleDuration *duration = zoningDurations[zoningIndex];

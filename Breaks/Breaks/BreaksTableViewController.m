@@ -52,11 +52,11 @@ static UIColor *invalidDetailTextLabelColor;
 
 - (void)modifyFetchRequest
 {
-	[self.fetchRequest setEntity:[NSEntityDescription entityForName:@"Break" inManagedObjectContext:self.managedObjectContext]];
+	[self.fetchRequest setEntity:[NSEntityDescription entityForName:@"BRBreak" inManagedObjectContext:self.managedObjectContext]];
 	[self.fetchRequest setSortDescriptors:[NSArray arrayWithObjects:
-										   [NSSortDescriptor sortDescriptorWithKey:@"timeTaken" ascending:YES],
-										   [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:YES], nil]];
-	[self.fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"timeTaken != nil"]];
+										   [NSSortDescriptor sortDescriptorWithKey:@"duration.actualStartDate" ascending:YES],
+										   [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES], nil]];
+	[self.fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"duration.actualStartDate != nil"]];
 	//[self.fetchRequest setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"shift.employee.name"]];
 	
 	[super modifyFetchRequest];

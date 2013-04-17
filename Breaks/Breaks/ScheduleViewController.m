@@ -18,14 +18,23 @@
 
 #import "BRModelObjects.h"
 
-#import "ScheduleView.h"
+#import "BRScheduleView.h"
 #import "ScheduleViewZoningView.h"
 #import "ScheduleViewHeaderView.h"
 
 #import "UIViewController+Convenience.h"
 
 
-@interface ScheduleViewController () <BreaksTableViewControllerDelegate, UIActionSheetDelegate, ZonesTableViewControllerDelegate>
+@interface ScheduleViewController () <BreaksTableViewControllerDelegate, UIActionSheetDelegate, ZonesTableViewControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, BRScheduleViewDataSource, BRScheduleViewDelegate>
+{
+    IBOutlet BRScheduleView *scheduleView;
+    UIPopoverController *popoverController;
+	UIActionSheet *actionSheet;
+	
+	NSDateFormatter *breakDateFormatter;
+	
+	NSMutableSet *visibleZones;
+}
 
 @property (nonatomic, strong) NSIndexPath *indexPathOfSelectedBreakObject;
 
@@ -98,7 +107,7 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
 	[super setEditing:editing animated:animated];
-	[scheduleView  setEditing:editing animated:animated];
+	//[scheduleView setEditing:editing animated:animated];
 }
 
 @synthesize indexPathOfSelectedBreakObject;
@@ -188,11 +197,11 @@
 	NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:shift];
 	indexPath = [indexPath indexPathByAddingIndex:[shift.breaks indexOfObject:breakObject]];
 	
-	[scheduleView scrollToBreakAtIndexPath:indexPath animated:YES];
+	//[scheduleView scrollToBreakAtIndexPath:indexPath animated:YES];
 	
 	[popoverController dismissPopoverAnimated:YES];
 	
-	[scheduleView scrollToBreakAtIndexPath:indexPath animated:YES];
+	//[scheduleView scrollToBreakAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - data convenience
@@ -230,49 +239,40 @@
     [scheduleView reloadSchedule];
 }
 
-#pragma mark - schedule view data source
+#pragma mark - BRScheduleViewDataSource
 
-- (NSUInteger)numberOfSectionsInScheduleView:(ScheduleView *)someScheduleView
-{
-	return 1;
-}
-
-- (NSUInteger)numberOfShiftsInSection:(NSUInteger)section inScheduleView:(ScheduleView *)someScheduleView
+- (NSUInteger)numberOfShiftsInScheduleView:(BRScheduleView *)someScheduleView
 {
     return self.fetchedResultsController.fetchedObjects.count;
 }
 
-- (NSUInteger)numberOfZoningsAtIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
+- (NSUInteger)numberOfZoningsInShift:(NSUInteger)shiftIndex inScheduleView:(BRScheduleView *)someScheduleView
 {
-    BRShift *shift = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[shiftIndex];
 	return shift.zonings.count;
 }
 
-- (NSUInteger)numberOfBreaksAtIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
+- (NSUInteger)numberOfBreaksInShift:(NSUInteger)shiftIndex inScheduleView:(BRScheduleView *)someScheduleView
 {
-	return [[self.fetchedResultsController objectAtIndexPath:indexPath] breaks].count;
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[shiftIndex];
+	return shift.breaks.count;
 }
 
-- (id <ScheduleViewObject>)shiftObjectForIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
+- (BRScheduleDuration *)zoningDurationForZoning:(NSUInteger)zoningIndex forShift:(NSUInteger)shiftIndex inScheduleView:(BRScheduleView *)someScheduleView
 {
-	return [(BRShift *)[self.fetchedResultsController objectAtIndexPath:indexPath] duration];
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[shiftIndex];
+    BRZoning *zoning = shift.zonings[zoningIndex];
+	return zoning.duration.portableDuration;
 }
 
-- (id <ScheduleViewObject>)zoningObjectForIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
+- (BRScheduleDuration *)breakDurationForBreak:(NSUInteger)breakIndex forShift:(NSUInteger)shiftIndex inScheduleView:(BRScheduleView *)someScheduleView
 {
-    NSIndexPath *shiftIndexPath = [indexPath indexPathByRemovingLastIndex];
-    BRShift *storeShift = [self.fetchedResultsController objectAtIndexPath:shiftIndexPath];
-	return [(BRZoning *)[storeShift.zonings objectAtIndex:[indexPath indexAtPosition:2]] duration];
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[shiftIndex];
+    BRBreak *shiftBreak = shift.breaks[breakIndex];
+	return shiftBreak.duration.portableDuration;
 }
 
-- (id <ScheduleViewObject>)breakObjectForIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
-{
-    NSIndexPath *shiftIndexPath = [indexPath indexPathByRemovingLastIndex];
-    BRShift *storeShift = [self.fetchedResultsController objectAtIndexPath:shiftIndexPath];
-	return [(BRBreak *)[storeShift.breaks objectAtIndex:[indexPath indexAtPosition:2]] duration];
-}
-
-#pragma mark - schedule view delegate
+#pragma mark - BRScheduleViewDelegate
 
 - (NSString *)headerTitleAtIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
 {
@@ -366,7 +366,7 @@
 	
 	NSError *error = nil;
 	[self.managedObjectContext save:&error];
-	[scheduleView reloadBreakAtIndexPath:self.indexPathOfSelectedBreakObject animated:YES];
+	//[scheduleView reloadBreakAtIndexPath:self.indexPathOfSelectedBreakObject animated:YES];
 	self.indexPathOfSelectedBreakObject = nil;
 }
 
@@ -374,7 +374,7 @@
 
 - (void)minuteDidChange:(id)sender
 {
-	scheduleView.timeheadDisplayDate = [NSDate date];
+	//scheduleView.timeheadDisplayDate = [NSDate date];
 }
 
 

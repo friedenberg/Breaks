@@ -7,21 +7,7 @@
 //
 
 #import <AAKit/AAKit.h>
-#import "ScheduleViewDelegate.h"
-#import "ScheduleViewDataSource.h"
 
-
-@class Break, ScheduleView;
-
-@interface ScheduleViewController : AAFetchedResultsViewController <UIPopoverControllerDelegate, UINavigationControllerDelegate, ScheduleViewDataSource, ScheduleViewDelegate>
-{
-    IBOutlet ScheduleView *scheduleView;
-    UIPopoverController *popoverController;
-	UIActionSheet *actionSheet;
-	
-	NSDateFormatter *breakDateFormatter;
-	
-	NSMutableSet *visibleZones;
-}
+@interface ScheduleViewController : AAFetchedResultsViewController
 
 @end

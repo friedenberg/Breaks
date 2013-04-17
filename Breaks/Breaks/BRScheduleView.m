@@ -8,7 +8,10 @@
 
 #import "BRScheduleView.h"
 
+#import "BRScheduleCaptureView.h"
+
 #import "BRScheduleView_PrivateLayoutAdditions.h"
+#import "BRScheduleBackgroundView.h"
 #import "BRScheduleDuration.h"
 
 #import "BRScheduleViewZoningLayout.h"
@@ -17,19 +20,20 @@
 
 
 
-@interface BRScheduleView () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BRScheduleView () <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
 {
+    BRScheduleCaptureView *_captureView;
+    
     UICollectionView *_headerCollectionView;
     UICollectionView *_zoningCollectionView;
     UICollectionView *_breakCollectionView;
     
+    UIScrollView *_backgroundScrollView;
+    BRScheduleBackgroundView *_backgroundView;
+    
     //cache
 	NSMutableArray *_zoningDurations; //array of arrays of durations
 	NSMutableArray *_breakDurations; //array of arrays of durations
-    
-    //timehead
-    UIImageView *_timeheadView;
-	CGFloat _timeheadProgress;
     
     //zoning colors
     NSMutableDictionary *_zoningViewTintedImages;
@@ -48,10 +52,14 @@
 	} delegateResponseFlags;
 }
 
+- (void)updateContentSize;
+- (void)updateContentOffsets;
+
 @end
 
 @implementation BRScheduleView
 
+static NSString *kZoningCell = @"kZoningCell";
 static UIImage *kTimeheadCarotImage;
 
 + (void)initialize
@@ -61,9 +69,9 @@ static UIImage *kTimeheadCarotImage;
     }
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super initWithCoder:aDecoder]) {
         _referenceDate = [NSDate today];
         self.userInteractionEnabled = YES;
         self.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
@@ -79,8 +87,25 @@ static UIImage *kTimeheadCarotImage;
         
         BRScheduleViewZoningLayout *zoningLayout = [[BRScheduleViewZoningLayout alloc] initWithScheduleView:self];
         _zoningCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:zoningLayout];
+        _zoningCollectionView.backgroundColor = [UIColor clearColor];
+        [_zoningCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kZoningCell];
         _zoningCollectionView.dataSource = self;
         _zoningCollectionView.delegate = self;
+        
+        _backgroundScrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        
+        _backgroundView = [[BRScheduleBackgroundView alloc] initWithFrame:CGRectZero];
+        _backgroundView.scheduleView = self;
+        [_backgroundScrollView addSubview:_backgroundView];
+        
+        _captureView = [[BRScheduleCaptureView alloc] initWithFrame:CGRectZero];
+        _captureView.scheduleView = self;
+        _captureView.delegate = self;
+        
+        [self addSubview:_backgroundScrollView];
+        [self addSubview:_zoningCollectionView];
+        
+        [self addSubview:_captureView];
     }
     
     return self;
@@ -88,12 +113,72 @@ static UIImage *kTimeheadCarotImage;
 
 #pragma mark - Geometry
 
-- (CGSize)contentSize
+- (void)layoutSubviews
 {
-    CGSize size = CGSizeZero;
-    size.width = _headerWidth + _hoursVisibleRange.length * _hourWidth;
-    size.height = _rulerHeight + _zoningDurations.count * _rowHeight;
-    return size;
+    CGRect bounds = self.bounds;
+    CGPoint contentOffset = _captureView.contentOffset;
+    
+    _captureView.frame = bounds;
+    
+    //zoning collection view frame
+    _zoningCollectionView.frame = bounds;
+    _backgroundScrollView.frame = bounds;
+    
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+	insets.top = _rulerHeight;
+	insets.left = _headerWidth;
+	
+    _captureView.contentInset = insets;
+    _zoningCollectionView.contentInset = insets;
+    
+    //backgroundview positioning
+    CGRect backgroundFrame = bounds;
+    backgroundFrame.origin.y = _rulerHeight;
+    backgroundFrame.size.width = _scheduleContentSize.width;
+    _backgroundView.frame = backgroundFrame;
+}
+
+#pragma mark - UIView
+
+- (void)didMoveToSuperview
+{
+    [self reloadSchedule];
+}
+
+#pragma mark - BRScheduleView
+
+- (void)updateContentSize
+{
+    [self willChangeValueForKey:@"scheduleContentSize"];
+    _scheduleContentSize = CGSizeZero;
+    _scheduleContentSize.width = _hoursVisibleRange.length * _hourWidth;
+    _scheduleContentSize.height = _zoningDurations.count * _rowHeight;
+    [self didChangeValueForKey:@"scheduleContentSize"];
+    
+    [self willChangeValueForKey:@"contentSize"];
+    _contentSize = _scheduleContentSize;
+    _contentSize.width = _headerWidth;
+    _contentSize.height = _rulerHeight;
+    [self didChangeValueForKey:@"contentSize"];
+    
+    _captureView.contentSize = _scheduleContentSize;
+    _backgroundScrollView.contentSize = CGSizeMake(_contentSize.width, CGRectGetMaxY(self.bounds));
+}
+
+- (void)updateContentOffsets
+{
+    CGPoint contentOffset = _captureView.contentOffset;
+    _zoningCollectionView.contentOffset = contentOffset;
+    _backgroundScrollView.contentOffset = CGPointMake(contentOffset.x, 0);
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == _captureView) {
+        [self updateContentOffsets];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -118,9 +203,51 @@ static UIImage *kTimeheadCarotImage;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kZoningCell forIndexPath:indexPath];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PAA_dBIndicators_Mixer_01"]];
+    cell.backgroundView = backgroundView;
+    return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
+
+#pragma mark - BRScheduleView
+
+- (void)reloadSchedule
+{
+    NSUInteger shiftCount = [self.dataSource numberOfShiftsInScheduleView:self];
+    [_zoningDurations removeAllObjects];
+    [_breakDurations removeAllObjects];
+    
+    NSUIntegerEnumerate(shiftCount, ^(NSUInteger shiftIndex) {
+        
+        NSUInteger zoningCount = [self.dataSource numberOfZoningsInShift:shiftIndex inScheduleView:self];
+        NSUInteger breakCount = [self.dataSource numberOfBreaksInShift:shiftIndex inScheduleView:self];
+        
+        NSMutableArray *zonings = [NSMutableArray arrayWithCapacity:zoningCount];
+        NSMutableArray *breaks = [NSMutableArray arrayWithCapacity:breakCount];
+        
+        [_zoningDurations addObject:zonings];
+        [_breakDurations addObject:breaks];
+        
+        NSUIntegerEnumerate(zoningCount, ^(NSUInteger zoningIndex) {
+            
+            [zonings addObject:[self.dataSource zoningDurationForZoning:zoningIndex forShift:shiftIndex inScheduleView:self]];
+            
+        });
+        
+        NSUIntegerEnumerate(breakCount, ^(NSUInteger breakIndex) {
+            
+            [breaks addObject:[self.dataSource breakDurationForBreak:breakIndex forShift:shiftIndex inScheduleView:self]];
+            
+        });
+        
+    });
+    
+    [self updateContentSize];
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    _captureView.contentOffset = CGPointMake(-_headerWidth, -_rulerHeight);
+}
 
 @end

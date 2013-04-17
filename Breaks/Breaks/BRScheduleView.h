@@ -44,7 +44,9 @@
 @property (nonatomic) CGFloat hourWidth;
 @property (nonatomic) NSRange hoursVisibleRange;
 @property (nonatomic) CGFloat headerWidth;
+@property (nonatomic, readonly) CGSize scheduleContentSize;
 @property (nonatomic, readonly) CGSize contentSize;
+@property (nonatomic) CGPoint contentOffset;
 
 - (void)reloadSchedule;
 
