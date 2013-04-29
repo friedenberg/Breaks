@@ -11,6 +11,8 @@
 #import "BRScheduleView.h"
 #import "BRScheduleBackgroundView.h"
 
+#import "BRScheduleView_Internal.h"
+
 
 @interface BRScheduleCaptureView ()
 {

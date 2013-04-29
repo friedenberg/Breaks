@@ -28,7 +28,7 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
     
     _coreDataController = [[AACoreDataController alloc] initWithModelName:@"BRBreaks"];
 	
-    if (NO)
+    if (YES)
     {
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDate *now = [NSDate date];
@@ -67,9 +67,11 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
             
             shift.duration.scheduledStartDate = [today dateByAddingTimeInterval:shiftStart];
             shift.duration.scheduledEndDate = [today dateByAddingTimeInterval:shiftEnd];
+            NSTimeInterval shiftDuration = shift.duration.scheduledDuration;
             
             zoningOne.duration.scheduledStartDate = shift.duration.scheduledStartDate;
-            zoningOne.duration.scheduledEndDate = [shift.duration.scheduledEndDate dateByAddingTimeInterval:(shift.duration.scheduledDuration) / 2];
+            zoningOne.duration.scheduledEndDate = [shift.duration.scheduledStartDate dateByAddingTimeInterval:shiftDuration / 2];
+            
             zoningTwo.duration.scheduledStartDate = zoningOne.duration.scheduledEndDate;
             zoningTwo.duration.scheduledEndDate = shift.duration.scheduledEndDate;
             

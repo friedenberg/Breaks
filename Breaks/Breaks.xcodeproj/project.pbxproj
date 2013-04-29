@@ -44,9 +44,7 @@
 		D98F9A59171C9D2E0002D05F /* BRScheduleViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D98F9A58171C9D2E0002D05F /* BRScheduleViewLayout.m */; };
 		D98F9A5C171C9DA20002D05F /* BRScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D98F9A5B171C9DA20002D05F /* BRScheduleView.m */; };
 		D98F9A5F171CA1FD0002D05F /* BRScheduleDuration.m in Sources */ = {isa = PBXBuildFile; fileRef = D98F9A5E171CA1FD0002D05F /* BRScheduleDuration.m */; };
-		D98F9A63171CA8800002D05F /* BRScheduleViewZoningLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D98F9A62171CA8800002D05F /* BRScheduleViewZoningLayout.m */; };
 		D995570D1546CC1600EF518F /* ScheduleViewBreakView.m in Sources */ = {isa = PBXBuildFile; fileRef = D995570C1546CC1600EF518F /* ScheduleViewBreakView.m */; };
-		D995FCB4155DD69C00A3357A /* AAOffsetMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = D995FCB3155DD69C00A3357A /* AAOffsetMutableArray.m */; };
 		D996275F1531C0CC0071C22D /* ScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D996275E1531C0CC0071C22D /* ScheduleView.m */; };
 		D99627651531C46E0071C22D /* ScheduleViewZoningView.m in Sources */ = {isa = PBXBuildFile; fileRef = D99627641531C46E0071C22D /* ScheduleViewZoningView.m */; };
 		D99627681531CE550071C22D /* ScheduleViewBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = D99627671531CE550071C22D /* ScheduleViewBackgroundView.m */; };
@@ -78,6 +76,7 @@
 		D9E2AEA31713996700C96E24 /* BRZone.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA21713996700C96E24 /* BRZone.m */; };
 		D9E2AEA61713996800C96E24 /* BRBreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA51713996800C96E24 /* BRBreak.m */; };
 		D9E2AEA91713A91F00C96E24 /* BRShiftBreak+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA81713A91D00C96E24 /* BRShiftBreak+Additions.m */; };
+		D9E793481725F6F6002A3369 /* BRTouchForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E793471725F6F6002A3369 /* BRTouchForwardingView.m */; };
 		D9E82C63158D57EE00A9E451 /* ZoneDemandGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E82C61158D57EE00A9E451 /* ZoneDemandGraphViewController.m */; };
 		D9E82C64158D57EE00A9E451 /* ZoneDemandGraphView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E82C62158D57EE00A9E451 /* ZoneDemandGraphView.xib */; };
 		D9EA6F5D158D51B1002B8333 /* AADemandGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA6F5C158D51B1002B8333 /* AADemandGraphView.m */; };
@@ -139,13 +138,9 @@
 		D98F9A5B171C9DA20002D05F /* BRScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRScheduleView.m; sourceTree = "<group>"; };
 		D98F9A5D171CA1FD0002D05F /* BRScheduleDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRScheduleDuration.h; sourceTree = "<group>"; };
 		D98F9A5E171CA1FD0002D05F /* BRScheduleDuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRScheduleDuration.m; sourceTree = "<group>"; };
-		D98F9A61171CA8800002D05F /* BRScheduleViewZoningLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRScheduleViewZoningLayout.h; sourceTree = "<group>"; };
-		D98F9A62171CA8800002D05F /* BRScheduleViewZoningLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRScheduleViewZoningLayout.m; sourceTree = "<group>"; };
 		D98F9A64171CABA30002D05F /* BRScheduleView_PrivateLayoutAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRScheduleView_PrivateLayoutAdditions.h; sourceTree = "<group>"; };
 		D995570B1546CC1600EF518F /* ScheduleViewBreakView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewBreakView.h; sourceTree = "<group>"; };
 		D995570C1546CC1600EF518F /* ScheduleViewBreakView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleViewBreakView.m; sourceTree = "<group>"; };
-		D995FCB2155DD69C00A3357A /* AAOffsetMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAOffsetMutableArray.h; sourceTree = "<group>"; };
-		D995FCB3155DD69C00A3357A /* AAOffsetMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAOffsetMutableArray.m; sourceTree = "<group>"; };
 		D996275D1531C0CC0071C22D /* ScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleView.h; sourceTree = "<group>"; };
 		D996275E1531C0CC0071C22D /* ScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleView.m; sourceTree = "<group>"; };
 		D99627631531C46E0071C22D /* ScheduleViewZoningView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewZoningView.h; sourceTree = "<group>"; };
@@ -208,6 +203,9 @@
 		D9E2AEA51713996800C96E24 /* BRBreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRBreak.m; sourceTree = "<group>"; };
 		D9E2AEA71713A91D00C96E24 /* BRShiftBreak+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BRShiftBreak+Additions.h"; sourceTree = "<group>"; };
 		D9E2AEA81713A91D00C96E24 /* BRShiftBreak+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BRShiftBreak+Additions.m"; sourceTree = "<group>"; };
+		D9E793451725F296002A3369 /* BRScheduleView_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRScheduleView_Internal.h; sourceTree = "<group>"; };
+		D9E793461725F6F6002A3369 /* BRTouchForwardingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRTouchForwardingView.h; sourceTree = "<group>"; };
+		D9E793471725F6F6002A3369 /* BRTouchForwardingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRTouchForwardingView.m; sourceTree = "<group>"; };
 		D9E82C60158D57EE00A9E451 /* ZoneDemandGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneDemandGraphViewController.h; sourceTree = "<group>"; };
 		D9E82C61158D57EE00A9E451 /* ZoneDemandGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneDemandGraphViewController.m; sourceTree = "<group>"; };
 		D9E82C62158D57EE00A9E451 /* ZoneDemandGraphView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZoneDemandGraphView.xib; sourceTree = "<group>"; };
@@ -294,8 +292,6 @@
 			isa = PBXGroup;
 			children = (
 				D995FCB0155DD66700A3357A /* Core Data Model */,
-				D995FCB2155DD69C00A3357A /* AAOffsetMutableArray.h */,
-				D995FCB3155DD69C00A3357A /* AAOffsetMutableArray.m */,
 				D9A3D93D157A5AED002860AF /* AAViewRecycler */,
 			);
 			name = Model;
@@ -335,6 +331,9 @@
 				D972A125171CE0AD00490D34 /* PAA_dBIndicators_Mixer_02.png */,
 				D98F9A5A171C9DA10002D05F /* BRScheduleView.h */,
 				D98F9A5B171C9DA20002D05F /* BRScheduleView.m */,
+				D9E793451725F296002A3369 /* BRScheduleView_Internal.h */,
+				D9E793461725F6F6002A3369 /* BRTouchForwardingView.h */,
+				D9E793471725F6F6002A3369 /* BRTouchForwardingView.m */,
 				D972A12B171CE8AC00490D34 /* BRScheduleCaptureView.h */,
 				D972A12C171CE8AC00490D34 /* BRScheduleCaptureView.m */,
 				D972A128171CE46F00490D34 /* BRScheduleBackgroundView.h */,
@@ -342,8 +341,6 @@
 				D98F9A64171CABA30002D05F /* BRScheduleView_PrivateLayoutAdditions.h */,
 				D98F9A57171C9D2E0002D05F /* BRScheduleViewLayout.h */,
 				D98F9A58171C9D2E0002D05F /* BRScheduleViewLayout.m */,
-				D98F9A61171CA8800002D05F /* BRScheduleViewZoningLayout.h */,
-				D98F9A62171CA8800002D05F /* BRScheduleViewZoningLayout.m */,
 				D98F9A5D171CA1FD0002D05F /* BRScheduleDuration.h */,
 				D98F9A5E171CA1FD0002D05F /* BRScheduleDuration.m */,
 			);
@@ -610,7 +607,6 @@
 				D923C6DF154DC8300022FEAC /* AABadgeView.m in Sources */,
 				D923C6F0154DF9930022FEAC /* ScheduleViewCell.m in Sources */,
 				D9A8DB57155B486400C5BFF8 /* ZonesTableViewController.m in Sources */,
-				D995FCB4155DD69C00A3357A /* AAOffsetMutableArray.m in Sources */,
 				D997E35C156C784500F4F1DD /* AAViewRecycler.m in Sources */,
 				D9B31222156D9E86001EA4A3 /* UIColor-Expanded.m in Sources */,
 				D9A1B7BC1576499B004A9246 /* ScheduleDetailViewController.m in Sources */,
@@ -638,9 +634,9 @@
 				D98F9A59171C9D2E0002D05F /* BRScheduleViewLayout.m in Sources */,
 				D98F9A5C171C9DA20002D05F /* BRScheduleView.m in Sources */,
 				D98F9A5F171CA1FD0002D05F /* BRScheduleDuration.m in Sources */,
-				D98F9A63171CA8800002D05F /* BRScheduleViewZoningLayout.m in Sources */,
 				D972A12A171CE46F00490D34 /* BRScheduleBackgroundView.m in Sources */,
 				D972A12D171CE8AC00490D34 /* BRScheduleCaptureView.m in Sources */,
+				D9E793481725F6F6002A3369 /* BRTouchForwardingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
