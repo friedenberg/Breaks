@@ -33,6 +33,7 @@
     
     UIScrollView *_backgroundScrollView;
     BRScheduleBackgroundView *_backgroundView;
+    UIImageView *_timeheadView;
     
     //cache
 	NSMutableArray *_zoningDurations; //array of arrays of durations
@@ -40,6 +41,8 @@
     
     //zoning colors
     NSMutableDictionary *_zoningViewTintedImages;
+    
+    CGFloat _timeheadProgress;
     
     //flags
     struct
@@ -60,6 +63,8 @@
 - (void)updateContentSize;
 - (void)updateContentOffsets;
 - (void)updateContentInsets;
+
+- (void)layoutTimeheadView;
 
 @end
 
@@ -118,8 +123,11 @@ static UIImage *kTimeheadCarotImage;
         _backgroundScrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         
         _backgroundView = [[BRScheduleBackgroundView alloc] initWithFrame:CGRectZero];
+        _backgroundView.showsRuler = YES;
         _backgroundView.scheduleView = self;
         [_backgroundScrollView addSubview:_backgroundView];
+        
+        _timeheadView = [[UIImageView alloc] initWithImage:kTimeheadCarotImage];
         
         _touchForwardingView = [[BRTouchForwardingView alloc] initWithFrame:CGRectZero];
         _touchForwardingView.scheduleView = self;
@@ -131,6 +139,7 @@ static UIImage *kTimeheadCarotImage;
         _contentView = [[UIView alloc] initWithFrame:CGRectZero];
         [_contentView addSubview:_zoningCollectionView];
         [_contentView addSubview:_breakCollectionView];
+        [_contentView addSubview:_timeheadView];
         [_contentView addSubview:_headerTableView];
         
         [self addSubview:_backgroundScrollView];
@@ -162,7 +171,7 @@ static UIImage *kTimeheadCarotImage;
     _breakCollectionView.frame = collectionFrame;
     
     //background view
-    CGRect backgroundScrollFrame = collectionFrame;
+    CGRect backgroundScrollFrame = CGRectInsetFromTop(collectionFrame, -_rulerHeight);;
     _backgroundScrollView.frame = backgroundScrollFrame;
     
     //header table view frame
@@ -173,11 +182,88 @@ static UIImage *kTimeheadCarotImage;
     //backgroundview positioning
     CGRect backgroundFrame = CGRectZero;
     backgroundFrame.size = _scheduleContentSize;
+    backgroundFrame.size.height += _rulerHeight;
     _backgroundView.frame = backgroundFrame;
     
     _touchForwardingView.frame = CGRectFromCGSize(_captureScrollView.contentSize);
     
     [self updateContentInsets];
+    [self layoutTimeheadView];
+}
+
+#pragma mark - BRScheduleView Layout
+
+- (void)updateContentSize
+{
+    [self willChangeValueForKey:@"scheduleContentSize"];
+    _scheduleContentSize = CGSizeZero;
+    _scheduleContentSize.width = _hoursVisibleRange.length * _hourWidth;
+    _scheduleContentSize.height = _zoningDurations.count * _rowHeight;
+    [self didChangeValueForKey:@"scheduleContentSize"];
+    
+    [self willChangeValueForKey:@"contentSize"];
+    _contentSize = _scheduleContentSize;
+    _contentSize.width += _headerWidth;
+    _contentSize.height += _rulerHeight;
+    [self didChangeValueForKey:@"contentSize"];
+    
+    _captureScrollView.contentSize = _contentSize;
+    _backgroundScrollView.contentSize = CGSizeMake(_contentSize.width, CGRectGetMaxY(self.bounds));
+}
+
+- (void)updateContentOffsets
+{
+    CGPoint contentOffset = _captureScrollView.contentOffset;
+    _zoningCollectionView.contentOffset = contentOffset;
+    _breakCollectionView.contentOffset = contentOffset;
+    _backgroundScrollView.contentOffset = CGPointMake(contentOffset.x, 0);
+    _headerTableView.contentOffset = CGPointMake(0, contentOffset.y - _rulerHeight);
+}
+
+- (void)updateContentInsets
+{
+    CGRect visibleRect = self.bounds;
+    visibleRect.origin = _captureScrollView.contentOffset;
+    
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+	insets.top = _rulerHeight;
+    _headerTableView.contentInset = insets;
+    _headerTableView.scrollIndicatorInsets = insets;
+    
+    insets = UIEdgeInsetsZero;
+	insets.left = _headerWidth;
+    if (visibleRect.origin.x < 0) {
+        insets.left += -visibleRect.origin.x;
+    }
+	insets.top = _rulerHeight;
+	insets.right = MAX(CGRectGetMaxX(visibleRect) - _contentSize.width, 0);
+	_captureScrollView.scrollIndicatorInsets = insets;
+}
+
+- (void)layoutTimeheadView
+{
+	CGRect timeheadFrame = self.bounds;
+	timeheadFrame.size.width = kTimeheadCarotImage.size.width;
+	timeheadFrame.origin.x = _headerWidth - (kTimeheadCarotImage.size.width / 2);
+    timeheadFrame.origin.x += floor(_scheduleContentSize.width * _timeheadProgress);
+    timeheadFrame.origin.x -= _captureScrollView.contentOffset.x;
+	_timeheadView.frame = timeheadFrame;
+}
+
+#define BETWEEN(lower, value, upper) MAX(lower, MIN(upper, value))
+
+- (void)setTimeheadDisplayDate:(NSDate *)value
+{
+	_timeheadDisplayDate = value;
+	
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	
+	NSDateComponents *components = [calendar components:NSHourCalendarUnit | NSMinuteCalendarUnit fromDate:_timeheadDisplayDate];
+	CGFloat currentAdjustedHour = (CGFloat)components.hour + ((CGFloat)components.minute / 60) - (CGFloat)_hoursVisibleRange.location;
+	_timeheadProgress = currentAdjustedHour / (CGFloat)_hoursVisibleRange.length;
+	_timeheadProgress = BETWEEN(0, _timeheadProgress, 1);
+	
+	[self layoutTimeheadView];
 }
 
 #pragma mark - UIResponder
@@ -222,53 +308,8 @@ static UIImage *kTimeheadCarotImage;
 
 - (void)didMoveToSuperview
 {
+    self.timeheadDisplayDate = [NSDate date];
     [self reloadSchedule];
-}
-
-#pragma mark - BRScheduleView
-
-- (void)updateContentSize
-{
-    [self willChangeValueForKey:@"scheduleContentSize"];
-    _scheduleContentSize = CGSizeZero;
-    _scheduleContentSize.width = _hoursVisibleRange.length * _hourWidth;
-    _scheduleContentSize.height = _zoningDurations.count * _rowHeight;
-    [self didChangeValueForKey:@"scheduleContentSize"];
-    
-    [self willChangeValueForKey:@"contentSize"];
-    _contentSize = _scheduleContentSize;
-    _contentSize.width += _headerWidth;
-    _contentSize.height += _rulerHeight;
-    [self didChangeValueForKey:@"contentSize"];
-    
-    _captureScrollView.contentSize = _contentSize;
-    _backgroundScrollView.contentSize = CGSizeMake(_contentSize.width, CGRectGetMaxY(self.bounds));
-}
-
-- (void)updateContentOffsets
-{
-    CGPoint contentOffset = _captureScrollView.contentOffset;
-    _zoningCollectionView.contentOffset = contentOffset;
-    _breakCollectionView.contentOffset = contentOffset;
-    _backgroundScrollView.contentOffset = CGPointMake(contentOffset.x, 0);
-    _headerTableView.contentOffset = CGPointMake(0, contentOffset.y - _rulerHeight);
-}
-
-- (void)updateContentInsets
-{
-    CGRect visibleRect = self.bounds;
-    visibleRect.origin = _captureScrollView.contentOffset;
-    
-    UIEdgeInsets insets = UIEdgeInsetsZero;
-	insets.top = _rulerHeight;
-    _headerTableView.contentInset = insets;
-    _headerTableView.scrollIndicatorInsets = insets;
-    
-    insets = UIEdgeInsetsZero;
-	insets.left = visibleRect.origin.x >= -_headerWidth ? _headerWidth : -visibleRect.origin.x;
-	insets.top = _rulerHeight;
-	insets.right = MAX(CGRectGetMaxX(visibleRect) - _contentSize.width, 0);
-	_captureScrollView.scrollIndicatorInsets = insets;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -278,6 +319,7 @@ static UIImage *kTimeheadCarotImage;
     if (scrollView == _captureScrollView) {
         [self updateContentOffsets];
         [self updateContentInsets];
+        [self layoutTimeheadView];
     }
 }
 
@@ -312,7 +354,8 @@ static UIImage *kTimeheadCarotImage;
     
     if (collectionView == _zoningCollectionView) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:kZoningCell forIndexPath:indexPath];
-        cell.backgroundColor = [UIColor blueColor];
+        UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PAA_dBIndicators_Mixer_01"]];
+        cell.backgroundView = backgroundImageView;
     } else if (collectionView == _breakCollectionView) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBreakCell forIndexPath:indexPath];
         cell.backgroundColor = [UIColor orangeColor];

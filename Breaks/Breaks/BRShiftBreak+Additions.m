@@ -19,7 +19,7 @@
     
     for (NSNumber *duration in durations) {
         BRBreak *shiftBreak = [NSEntityDescription insertNewObjectForEntityForName:@"BRBreak" inManagedObjectContext:someContext];
-        shiftBreak.duration.scheduledDuration = duration.integerValue;
+        shiftBreak.type = duration.integerValue;
         [shiftBreaks addObject:shiftBreak];
     }
     

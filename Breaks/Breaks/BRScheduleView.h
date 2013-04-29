@@ -36,6 +36,8 @@
 @property (nonatomic, weak) IBOutlet id <BRScheduleViewDataSource> dataSource;
 @property (nonatomic, weak) IBOutlet id <BRScheduleViewDelegate> delegate;
 
+@property (nonatomic, strong) NSDate *timeheadDisplayDate;
+
 @property (nonatomic, copy) NSDate *referenceDate;
 
 //geometry

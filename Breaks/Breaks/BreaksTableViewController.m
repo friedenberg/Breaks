@@ -140,7 +140,7 @@ static UIColor *invalidDetailTextLabelColor;
 	cell.detailTextLabel.text = detailText;
 	cell.detailTextLabel.textColor = detailColor;
 	
-	cell.imageView.image = breakObject.duration.scheduledDuration == BRBreakTypeFifteen ? [UIImage imageNamed:@"fifteenIcon"] : [UIImage imageNamed:@"lunchIcon"];
+	cell.imageView.image = breakObject.type == BRBreakTypeFifteen ? [UIImage imageNamed:@"fifteenIcon"] : [UIImage imageNamed:@"lunchIcon"];
 	
 	return cell;
 }

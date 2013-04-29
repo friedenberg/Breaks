@@ -57,12 +57,12 @@
 			break;
 	}
 	
-	NSTimeInterval interval = (self.duration.scheduledDuration - [[breaks valueForKeyPath:@"@sum.duration.scheduledDuration"] doubleValue]) / (breaks.count + 1);
+	NSTimeInterval interval = (self.duration.scheduledDuration - [[breaks valueForKeyPath:@"@sum.type"] doubleValue]) / (breaks.count + 1);
 	NSTimeInterval breakStart = interval + [self.duration.scheduledStartDate timeIntervalSinceReferenceDate];
 	
 	for (BRBreak *breakObject in breaks)
 	{
-		NSTimeInterval duration = breakObject.duration.scheduledDuration;
+		NSTimeInterval duration = (NSTimeInterval)breakObject.type;
 		
 		breakObject.duration.scheduledStartDate = [NSDate dateWithTimeIntervalSinceReferenceDate:breakStart];
 		breakObject.duration.scheduledEndDate = [breakObject.duration.scheduledStartDate dateByAddingTimeInterval:duration];

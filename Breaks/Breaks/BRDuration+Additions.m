@@ -28,4 +28,9 @@
     return scheduleDuration;
 }
 
+- (double)scheduledDuration
+{
+    return [self.scheduledEndDate timeIntervalSinceDate:self.scheduledStartDate];
+}
+
 @end

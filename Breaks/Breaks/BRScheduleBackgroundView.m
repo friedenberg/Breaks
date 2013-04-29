@@ -50,7 +50,7 @@
 			currentSegmentRect.size.height /= 2;
 		}
 		
-		[[UIColor lightGrayColor] set];
+		[[UIColor colorWithRed:0.719 green:0.719 blue:0.719 alpha:1.000] set];
 		
 		UIBezierPath *path = [UIBezierPath bezierPathWithRect:currentSegmentRect];
 		[path fill];

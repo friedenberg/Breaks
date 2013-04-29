@@ -28,7 +28,7 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
     
     _coreDataController = [[AACoreDataController alloc] initWithModelName:@"BRBreaks"];
 	
-    if (YES)
+    if (NO)
     {
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSDate *now = [NSDate date];

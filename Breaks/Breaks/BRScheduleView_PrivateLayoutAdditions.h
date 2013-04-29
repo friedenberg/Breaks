@@ -11,5 +11,6 @@
 @interface BRScheduleView ()
 
 @property (nonatomic, readonly) NSArray *zoningDurations;
+@property (nonatomic, readonly) NSArray *breakDurations;
 
 @end

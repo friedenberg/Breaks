@@ -12,12 +12,10 @@
 @class BRScheduleView;
 
 @interface BRScheduleViewLayout : UICollectionViewLayout
-{
-    NSMutableArray *_layoutAttributes;
-}
 
 - (instancetype)initWithScheduleView:(BRScheduleView *)someScheduleView;
 
 @property (nonatomic, weak) BRScheduleView *scheduleView;
+@property (nonatomic, strong) NSString *keyPathForScheduleDurations;
 
 @end
