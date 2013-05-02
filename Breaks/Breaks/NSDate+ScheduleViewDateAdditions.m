@@ -29,37 +29,9 @@
 	return [self earlierDate:date] == self;
 }
 
-+ (NSTimeInterval)timeIntervalFromHundredsMinuteInteger:(NSInteger)value
-{
-	NSUInteger minutes = value % 100;
-	NSUInteger hours = (value - minutes) / 100;
-	
-	NSTimeInterval timeInterval = hours * 3600;
-	timeInterval += minutes * 36;
-	
-	return timeInterval;
-}
-
-+ (NSInteger)hundredsMinuteIntegerFromTimeInterval:(NSTimeInterval)value
-{
-	NSTimeInterval minutes = fmod(value, 3600);
-	NSTimeInterval hours = (value - minutes) / 3600;
-	
-	NSInteger minutesInteger = hours * 100;
-	minutesInteger += minutes / 60 * 10 / 6;
-	
-	return minutesInteger;
-}
-
 - (NSTimeInterval)timeIntervalSinceToday
 {
 	return [self timeIntervalSinceDate:[NSDate today]];
 }
-
-- (NSInteger)timeIntervalFromTodayAsHundredsMinuteInteger
-{
-	return [NSDate hundredsMinuteIntegerFromTimeInterval:[self timeIntervalSinceToday]];
-}
-
 
 @end

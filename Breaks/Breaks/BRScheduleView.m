@@ -59,6 +59,7 @@
 }
 
 @property (nonatomic, weak) UIView *firstResponder;
+@property (nonatomic, weak) NSIndexPath *highlightedIndexPath;
 
 - (void)updateContentSize;
 - (void)updateContentOffsets;
@@ -118,7 +119,7 @@ static UIImage *kTimeheadCarotImage;
         [_headerTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kHeaderCell];
         _headerTableView.dataSource = self;
         _headerTableView.delegate = self;
-        _headerTableView.allowsSelection = NO;
+        //_headerTableView.allowsSelection = NO;
         
         _backgroundScrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         
@@ -150,7 +151,7 @@ static UIImage *kTimeheadCarotImage;
     return self;
 }
 
-#pragma mark - Geometry
+#pragma mark - BRScheduleView Layout
 
 - (void)layoutSubviews
 {
@@ -190,8 +191,6 @@ static UIImage *kTimeheadCarotImage;
     [self updateContentInsets];
     [self layoutTimeheadView];
 }
-
-#pragma mark - BRScheduleView Layout
 
 - (void)updateContentSize
 {
@@ -266,6 +265,32 @@ static UIImage *kTimeheadCarotImage;
 	[self layoutTimeheadView];
 }
 
+#pragma mark - BRScheduleView External Geometry
+
+- (CGRect)rectForZoningAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGRect unadjustedFrame = [_zoningCollectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+    return [self convertRect:unadjustedFrame fromView:_zoningCollectionView];
+}
+
+- (CGRect)rectForBreakAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGRect unadjustedFrame = [_breakCollectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+    return [self convertRect:unadjustedFrame fromView:_breakCollectionView];
+}
+
+#pragma mark - BRScheduleView Mutation
+
+- (void)beginUpdates
+{
+    
+}
+
+- (void)endUpdates
+{
+    
+}
+
 #pragma mark - UIResponder
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -277,31 +302,74 @@ static UIImage *kTimeheadCarotImage;
     if (location.x <= _headerWidth) {
         self.firstResponder = _headerTableView;
     } else {
-        UIView *breakHitTest = [_breakCollectionView hitTest:[self convertPoint:location toView:_breakCollectionView] withEvent:event];
         
-        if (breakHitTest == _breakCollectionView) {
+        UIView *breakHitTest = [_breakCollectionView hitTest:[touch locationInView:_breakCollectionView] withEvent:event];
+        
+        if (breakHitTest && breakHitTest != _breakCollectionView) {
             self.firstResponder = _breakCollectionView;
         } else {
             self.firstResponder = _zoningCollectionView;
+            breakHitTest = [_zoningCollectionView hitTest:[touch locationInView:_zoningCollectionView] withEvent:event];
         }
+        
+        UICollectionView *collectionView = nil;
+        
+        if (breakHitTest.superview.superview == _breakCollectionView) {
+            collectionView = _breakCollectionView;
+        } else if (breakHitTest.superview.superview == _zoningCollectionView) {
+            collectionView = _zoningCollectionView;
+        }
+        
+        UICollectionViewCell *cell = [breakHitTest.superview isKindOfClass:[UICollectionViewCell class]] ? breakHitTest.superview : nil;
+        self.highlightedIndexPath = [collectionView indexPathForCell:cell];
     }
     
-    [self.firstResponder touchesBegan:touches withEvent:event];
+    if (self.firstResponder == _headerTableView) {
+        [self.firstResponder touchesBegan:touches withEvent:event];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self.firstResponder touchesMoved:touches withEvent:event];
+    if (self.firstResponder == _headerTableView) {
+        [self.firstResponder touchesMoved:touches withEvent:event];
+    }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self.firstResponder touchesEnded:touches withEvent:event];
+    if (self.firstResponder == _headerTableView) {
+        [self.firstResponder touchesEnded:touches withEvent:event];
+    } else if (self.firstResponder) {
+        UICollectionView *collectionView = nil;
+        
+        if (self.firstResponder == _breakCollectionView) {
+            collectionView = _breakCollectionView;
+        } else if (self.firstResponder == _zoningCollectionView) {
+            collectionView = _zoningCollectionView;
+        }
+        
+        [collectionView selectItemAtIndexPath:self.highlightedIndexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
+        
+        if (self.firstResponder == _breakCollectionView) {
+            [_delegate scheduleView:self didSelectBreakViewAtIndexPath:self.highlightedIndexPath];
+        } else if (self.firstResponder == _zoningCollectionView) {
+            
+        }
+    }
+    
+    self.firstResponder = nil;
+    self.highlightedIndexPath = nil;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self.firstResponder touchesCancelled:touches withEvent:event];
+    if (self.firstResponder == _headerTableView) {
+        [self.firstResponder touchesCancelled:touches withEvent:event];
+    }
+    
+    self.firstResponder = nil;
+    self.highlightedIndexPath = nil;
 }
 
 #pragma mark - UIView
@@ -354,6 +422,7 @@ static UIImage *kTimeheadCarotImage;
     
     if (collectionView == _zoningCollectionView) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:kZoningCell forIndexPath:indexPath];
+        UIImage *zoningImage = [[UIImage imageNamed:@"PAA_dBIndicators_Mixer_01"] resizableImageWithCapInsets:UIEdgeInsetsMake(7, 4, 4, 4)];
         UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PAA_dBIndicators_Mixer_01"]];
         cell.backgroundView = backgroundImageView;
     } else if (collectionView == _breakCollectionView) {
@@ -365,6 +434,22 @@ static UIImage *kTimeheadCarotImage;
 }
 
 #pragma mark - UICollectionViewDelegate
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (collectionView == _breakCollectionView) {
+        if (delegateResponseFlags.didSelectBreakView) {
+            [_delegate scheduleView:self didSelectBreakViewAtIndexPath:indexPath];
+        }
+    }
+    
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -380,9 +465,7 @@ static UIImage *kTimeheadCarotImage;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHeaderCell];
-    cell.textLabel.text = @"Herp Derp";
-    return cell;
+    return [self.delegate scheduleView:self tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - UITableViewDelegate

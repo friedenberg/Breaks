@@ -12,4 +12,6 @@
 
 + (NSArray *)shiftBreaksWithDurations:(NSArray *)durations managedObjectContext:(NSManagedObjectContext *)someContext;
 
+@property (nonatomic, readonly) NSString *sectionTitle;
+
 @end

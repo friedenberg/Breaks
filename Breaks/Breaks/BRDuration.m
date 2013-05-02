@@ -24,4 +24,12 @@
 @dynamic shift;
 @dynamic shiftBreak;
 
+- (void)awakeFromInsert
+{
+    [super awakeFromInsert];
+    
+    [self setPrimitiveValue:[NSDate distantFuture] forKey:@"actualStartDate"];
+    [self setPrimitiveValue:[NSDate distantFuture] forKey:@"actualEndDate"];
+}
+
 @end

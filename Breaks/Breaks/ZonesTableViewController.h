@@ -13,8 +13,6 @@
 
 @protocol ZonesTableViewControllerDelegate <AACoreDataViewControllerDelegate>
 
-@property (nonatomic, readonly) NSSet *selectedZones;
-
 - (void)zonesTableViewController:(ZonesTableViewController *)someController didSelectZone:(NSManagedObjectID *)objectID;
 - (void)zonesTableViewController:(ZonesTableViewController *)someController didDeselectZone:(NSManagedObjectID *)objectID;
 
@@ -26,5 +24,6 @@
 }
 
 @property (nonatomic, weak) id <ZonesTableViewControllerDelegate> delegate;
+@property (nonatomic, readonly) NSSet *selectedZones;
 
 @end

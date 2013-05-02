@@ -16,4 +16,6 @@
 
 - (void)standardizeBreaks;
 
+- (NSString *)titleForCurrentActivity;
+
 @end

@@ -15,39 +15,61 @@
 
 
 @interface ZonesTableViewController () <AACoreDataViewControllerDelegate>
+{
+    NSMutableSet *_selectedZones;
+}
 
 @end
 
 @implementation ZonesTableViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _selectedZones = [NSMutableSet new];
+    }
+    
+    return self;
+}
+
 @dynamic delegate;
 
 - (NSString *)sectionNameKeyPath
 {
-	return @"section";
+	return @"section.name";
 }
 
 - (void)modifyFetchRequest
 {
 	[self.fetchRequest setEntity:[NSEntityDescription entityForName:@"BRZone" inManagedObjectContext:self.managedObjectContext]];
-	[self.fetchRequest setSortDescriptors:[NSArray arrayWithObjects:
-										   [NSSortDescriptor sortDescriptorWithKey:@"section" ascending:YES],
-										   [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES], nil]];
+	[self.fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"section" ascending:YES],
+     [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 	[super modifyFetchRequest];
 }
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+    
+    NSFetchRequest *allZonesFetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"BRZone" inManagedObjectContext:self.managedObjectContext];
+    [allZonesFetch setEntity:entity];
+    [allZonesFetch setResultType:NSManagedObjectIDResultType];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:allZonesFetch error:&error];
+    if (fetchedObjects.count) {
+        [_selectedZones addObjectsFromArray:fetchedObjects];
+    } else {
+        
+    }
+    
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	self.navigationItem.title = @"Zones";
-	
-	[tableView layoutSubviews];
-	self.contentSizeForViewInPopover = self.tableView.contentSize;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{ 
+{
     return [[[self.fetchedResultsController sections] objectAtIndex:section] name];
 }
 
@@ -60,13 +82,13 @@
 	if (!cell)
 	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-		//cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	
 	cell.imageView.image = [ZoneEditViewController colorWellImageForColor:[UIColor colorWithHexString:zone.hexColor]];
 	cell.textLabel.text = zone.name;
-	BOOL isSelected = [self.delegate.selectedZones containsObject:zone.objectID];
+    
+	BOOL isSelected = [_selectedZones containsObject:zone.objectID];
 	cell.accessoryType = isSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 	
 	return cell;
@@ -86,7 +108,6 @@
 {
 	[someTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	UITableViewCell *cell = [someTableView cellForRowAtIndexPath:indexPath];
 	BRZone *zone = [fetchedResultsController objectAtIndexPath:indexPath];
 	
 	if (self.editing)
@@ -95,24 +116,26 @@
 		[zoneEditContext setParentContext:self.managedObjectContext];
 		
 		ZoneEditViewController *controller = [[ZoneEditViewController alloc] initWithNibName:@"ZoneEditTableView" bundle:nil];
-        controller.zoneObjectID = zone.objectID;
         controller.managedObjectContext = self.managedObjectContext;
+        controller.zoneObjectID = zone.objectID;
 		controller.delegate = self;
         
 		[self.navigationController pushViewController:controller animated:YES];
 	}
 	else
 	{
-		if (cell.accessoryType == UITableViewCellAccessoryNone)
-		{
-			cell.accessoryType = UITableViewCellAccessoryCheckmark;
-			[self.delegate zonesTableViewController:self didSelectZone:zone.objectID];
-		}
-		else if (cell.accessoryType == UITableViewCellAccessoryCheckmark)
-		{
-			cell.accessoryType = UITableViewCellAccessoryNone;
-			[self.delegate zonesTableViewController:self didDeselectZone:zone.objectID];
-		}
+        NSManagedObjectID *zoneID = zone.objectID;
+        BOOL isSelected = [_selectedZones containsObject:zoneID];
+        
+        if (isSelected) {
+            [_selectedZones removeObject:zoneID];
+            [self.delegate zonesTableViewController:self didDeselectZone:zoneID];
+        } else {
+            [_selectedZones addObject:zoneID];
+            [self.delegate zonesTableViewController:self didSelectZone:zoneID];
+        }
+        
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];;
 	}
 }
 

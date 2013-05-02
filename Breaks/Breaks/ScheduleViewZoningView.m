@@ -8,8 +8,6 @@
 
 #import "ScheduleViewZoningView.h"
 
-#import "ScheduleView.h"
-
 
 @implementation ScheduleViewZoningView
 

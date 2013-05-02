@@ -6,10 +6,13 @@
 //
 //
 
-#import "BRStoreShift+Additions.h"
+#import "BRShift+Additions.h"
 
+#import "BRZone.h"
+#import "BRZoning.h"
 #import "BRDuration.h"
-#import "BRShiftBreak+Additions.h"
+#import "BRBreak+Additions.h"
+#import "BRDuration+Additions.h"
 
 
 @implementation BRShift (Additions)
@@ -72,5 +75,54 @@
 	self.breaks = [NSOrderedSet orderedSetWithArray:breaks];
 }
 
+- (NSString *)titleForCurrentActivity
+{
+    NSString *title = @"Off";
+    NSDate *now = [NSDate date];
+    __block BRBreak *currentBreak = nil;
+    
+    [self.breaks enumerateObjectsUsingBlock:^(BRBreak *someBreak, NSUInteger idx, BOOL *stop) {
+        
+        if ([someBreak.duration containsDate:now]) {
+            currentBreak = someBreak;
+            *stop = YES;
+        }
+        
+    }];
+    
+    if (currentBreak) {
+        switch (currentBreak.type) {
+            case BRBreakTypeFifteen:
+                title = @"Break";
+                break;
+                
+            case BRBreakTypeHalfLunch:
+                title = @"Half Lunch";
+                break;
+                
+            case BRBreakTypeFullLunch:
+            default:
+                title = @"Lunch";
+                break;
+        }
+    } else {
+        __block BRZoning *currentZoning = nil;
+        
+        [self.zonings enumerateObjectsUsingBlock:^(BRZoning *someZoning, NSUInteger idx, BOOL *stop) {
+            
+            if ([someZoning.duration containsDate:now]) {
+                currentZoning = someZoning;
+                *stop = YES;
+            }
+            
+        }];
+        
+        if (currentZoning) {
+            title = currentZoning.sectionZone.name;
+        }
+    }
+    
+    return title;
+}
 
 @end

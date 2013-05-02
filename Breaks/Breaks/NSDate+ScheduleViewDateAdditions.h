@@ -15,10 +15,6 @@
 - (BOOL)isLaterThanDate:(NSDate *)date;
 - (BOOL)isEarlierThanDate:(NSDate *)date;
 
-+ (NSTimeInterval)timeIntervalFromHundredsMinuteInteger:(NSInteger)value;
-+ (NSInteger)hundredsMinuteIntegerFromTimeInterval:(NSTimeInterval)value;
-
 - (NSTimeInterval)timeIntervalSinceToday;
-- (NSInteger)timeIntervalFromTodayAsHundredsMinuteInteger;
 
 @end

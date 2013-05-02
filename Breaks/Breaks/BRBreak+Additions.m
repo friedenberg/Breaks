@@ -6,7 +6,7 @@
 //
 //
 
-#import "BRShiftBreak+Additions.h"
+#import "BRBreak+Additions.h"
 
 #import "BRDuration.h"
 
@@ -24,6 +24,14 @@
     }
     
     return shiftBreaks.copy;
+}
+
+- (NSString *)sectionTitle
+{
+    return @"Future";
+    //if ([self.duration.actualStartDate isEqualToDate:[NSDate distantFuture]] && [self.duration.scheduledStartDate isLaterThanDate:[NSDate date]]) return @"Future";
+    //else if ([self.duration.actualStartDate isEqualToDate:[NSDate distantFuture]]) return @"Late";
+    //else return @"Started";
 }
 
 @end

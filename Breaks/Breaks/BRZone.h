@@ -15,10 +15,9 @@
 
 @property (nonatomic, strong) NSString * hexColor;
 @property (nonatomic, strong) NSString * name;
-@property (nonatomic, strong) NSString * section;
 @property (nonatomic, strong) NSSet *zonings;
 @property (nonatomic, strong) NSOrderedSet *sectionZoneRules;
-@property (nonatomic, strong) BRSection *storeSection;
+@property (nonatomic, strong) BRSection *section;
 @end
 
 @interface BRZone (CoreDataGeneratedAccessors)

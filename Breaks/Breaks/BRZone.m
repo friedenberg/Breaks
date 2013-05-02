@@ -19,6 +19,5 @@
 @dynamic section;
 @dynamic zonings;
 @dynamic sectionZoneRules;
-@dynamic storeSection;
 
 @end

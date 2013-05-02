@@ -11,6 +11,7 @@
 #import "AAObjectController.h"
 
 #import "BRModelObjects.h"
+#import "NSDate+ScheduleViewDateAdditions.h"
 
 
 @interface BreaksTableViewController ()
@@ -56,7 +57,8 @@ static UIColor *invalidDetailTextLabelColor;
 	[self.fetchRequest setSortDescriptors:[NSArray arrayWithObjects:
 										   [NSSortDescriptor sortDescriptorWithKey:@"duration.actualStartDate" ascending:YES],
 										   [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES], nil]];
-	[self.fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"duration.actualStartDate != nil"]];
+    NSDate *today = [NSDate today];
+	[self.fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"duration.actualEndDate == nil && duration.scheduledStartDate >= %@", today]];
 	//[self.fetchRequest setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObject:@"shift.employee.name"]];
 	
 	[super modifyFetchRequest];
@@ -68,14 +70,14 @@ static UIColor *invalidDetailTextLabelColor;
 	//self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	self.navigationItem.title = @"Breaks";
 	
-	self.toolbarItems = [NSArray arrayWithObjects:[UIBarButtonItem flexibleSpaceItem], segmentedControlBarButtonItem, [UIBarButtonItem flexibleSpaceItem], nil];
-	self.navigationController.toolbarHidden = NO;
+	//self.toolbarItems = [NSArray arrayWithObjects:[UIBarButtonItem flexibleSpaceItem], segmentedControlBarButtonItem, [UIBarButtonItem flexibleSpaceItem], nil];
+	//self.navigationController.toolbarHidden = NO;
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(minuteDidChange:) name:kMinuteChangeNotification object:nil];
 	[self minuteDidChange:nil];
 	
 	[tableView layoutSubviews];
-	self.contentSizeForViewInPopover = tableView.contentSize;
+	//self.contentSizeForViewInPopover = tableView.contentSize;
 }
 
 - (void)minuteDidChange:(NSNotification *)notification

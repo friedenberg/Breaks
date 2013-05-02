@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 #import "BRModelObjectPrimitives.h"
-#import "ScheduleView.h"
+
 
 @class BRBreak, BRZoning, BRShift;
 

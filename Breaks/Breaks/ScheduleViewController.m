@@ -17,6 +17,7 @@
 #import "ZoneDemandGraphViewController.h"
 
 #import "BRModelObjects.h"
+#import "BRShift+Additions.h"
 
 #import "BRScheduleView.h"
 #import "ScheduleViewZoningView.h"
@@ -33,10 +34,14 @@
 	
 	NSDateFormatter *breakDateFormatter;
 	
-	NSMutableSet *visibleZones;
+	BOOL _shouldIgnoreFetchedResultsControllerContentUpdates;
 }
 
+@property (nonatomic, strong) ZonesTableViewController *zoneTableViewController;
+
 @property (nonatomic, strong) NSIndexPath *indexPathOfSelectedBreakObject;
+
+- (void)performBlockWhileIgnoringFetchedResultsControllerContentUpdates:(dispatch_block_t)block;
 
 - (void)zoneBarButtonItem:(id)sender;
 - (void)breaksBarButtonItem:(id)sender;
@@ -50,32 +55,36 @@
 
 @implementation ScheduleViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil managedObjectContext:(NSManagedObjectContext *)aContext
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-	if (self = [super initWithNibName:nibNameOrNil bundle:nil])
-	{
-        self.managedObjectContext = aContext;
-		visibleZones = [NSMutableSet new];
-		breakDateFormatter = [NSDateFormatter new];
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        breakDateFormatter = [NSDateFormatter new];
 		[breakDateFormatter setTimeStyle:NSDateFormatterShortStyle];
 		[breakDateFormatter setDateStyle:NSDateFormatterNoStyle];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-												 selector:@selector(minuteDidChange:) 
-													 name:kMinuteChangeNotification 
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(minuteDidChange:)
+													 name:kMinuteChangeNotification
 												   object:nil];
-	}
-	
-	return self;
+        
+        self.zoneTableViewController = [[ZonesTableViewController alloc] initWithNibName:@"ZonesTableView" bundle:nil];
+        _zoneTableViewController.delegate = self;
+    }
+    
+    return self;
+}
+
+- (void)setManagedObjectContext:(NSManagedObjectContext *)value
+{
+    [super setManagedObjectContext:value];
+    _zoneTableViewController.managedObjectContext = value;
 }
 
 - (void)modifyFetchRequest
 {
 	NSFetchRequest *request = self.fetchRequest;
 	[request setEntity:[NSEntityDescription entityForName:@"BRShift" inManagedObjectContext:self.managedObjectContext]];
-	[request setSortDescriptors:[NSArray arrayWithObjects:
-								 [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES],
-								 [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledEndDate" ascending:YES],
-								 nil]];
+	[request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES],
+                               [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledEndDate" ascending:YES]]];
 	[request setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"breaks", @"zonings.shiftZone", @"employee", nil]];
 }
 
@@ -112,20 +121,15 @@
 
 @synthesize indexPathOfSelectedBreakObject;
 
-#pragma mark - zones
-
 - (void)zoneBarButtonItem:(id)sender
 {
 	if (popoverController.isPopoverVisible && [popoverController.contentViewController isKindOfClass:[ZonesTableViewController class]])
     {
         [popoverController dismissPopoverAnimated:YES];
     }
-    else 
+    else
     {
-        ZonesTableViewController *zonesController = [[ZonesTableViewController alloc] initWithNibName:@"ZonesTableView" bundle:nil];
-        zonesController.delegate = self;
-        zonesController.managedObjectContext = self.managedObjectContext;
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:zonesController];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:_zoneTableViewController];
         
 		if (!popoverController)
 		{
@@ -138,26 +142,25 @@
     }
 }
 
+#pragma mark - ZonesTableViewControllerDelegate
+
 - (void)coreDataViewControllerDidSaveContext:(AACoreDataViewController *)someController
 {
-	[scheduleView reloadSchedule];
-}
-
-- (NSSet *)selectedZones
-{
-	return visibleZones;
+	//[scheduleView reloadSchedule];
 }
 
 - (void)zonesTableViewController:(ZonesTableViewController *)someController didSelectZone:(NSManagedObjectID *)objectID
 {
-	[visibleZones addObject:objectID];
-	[self performFetch];
+    [self performBlockWhileIgnoringFetchedResultsControllerContentUpdates:^{
+        
+        [self performFetch];
+        
+    }];
 }
 
 - (void)zonesTableViewController:(ZonesTableViewController *)someController didDeselectZone:(NSManagedObjectID *)objectID
 {
-	[visibleZones removeObject:objectID];
-	[self performFetch];
+
 }
 
 #pragma mark - breaks
@@ -168,7 +171,7 @@
     {
         [popoverController dismissPopoverAnimated:YES];
     }
-    else 
+    else
     {
         BreaksTableViewController *controller = [[BreaksTableViewController alloc] initWithNibName:@"BreaksTableView" bundle:nil];
         controller.delegate = self;
@@ -208,16 +211,14 @@
 
 - (BRZoning *)zoningObjectForIndexPath:(NSIndexPath *)indexPath
 {
-    NSIndexPath *shiftIndexPath = [indexPath indexPathByRemovingLastIndex];
-    BRShift *storeShift = [self.fetchedResultsController objectAtIndexPath:shiftIndexPath];
-	return [storeShift.zonings objectAtIndex:[indexPath indexAtPosition:2]];
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[[indexPath indexAtPosition:0]];
+	return [shift.zonings objectAtIndex:[indexPath indexAtPosition:1]];
 }
 
 - (BRBreak *)breakObjectForIndexPath:(NSIndexPath *)indexPath
 {
-    NSIndexPath *shiftIndexPath = [indexPath indexPathByRemovingLastIndex];
-    BRShift *storeShift = [self.fetchedResultsController objectAtIndexPath:shiftIndexPath];
-	return [storeShift.breaks objectAtIndex:[indexPath indexAtPosition:2]];
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[[indexPath indexAtPosition:0]];
+	return [shift.breaks objectAtIndex:[indexPath indexAtPosition:1]];
 }
 
 #pragma mark - popovers
@@ -234,9 +235,34 @@
 	return YES;
 }
 
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    if (!_shouldIgnoreFetchedResultsControllerContentUpdates) {
+        
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    if (!_shouldIgnoreFetchedResultsControllerContentUpdates) {
+        
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    if (!_shouldIgnoreFetchedResultsControllerContentUpdates) {
+        
+    }
+}
+
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [scheduleView reloadSchedule];
+    if (!_shouldIgnoreFetchedResultsControllerContentUpdates) {
+        [scheduleView reloadSchedule];
+    }
 }
 
 #pragma mark - BRScheduleViewDataSource
@@ -274,49 +300,27 @@
 
 #pragma mark - BRScheduleViewDelegate
 
-- (NSString *)headerTitleAtIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
+static NSString *kHeaderTableViewCellIdentifier = @"kHeaderTableViewCellIdentifier";
+
+- (UITableViewCell *)scheduleView:(BRScheduleView *)someScheduleView tableView:(UITableView *)someTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-	BREmployee *employee = [[self.fetchedResultsController objectAtIndexPath:indexPath] employee];
-	return employee.name;
+    UITableViewCell *cell = [someTableView dequeueReusableCellWithIdentifier:kHeaderTableViewCellIdentifier];
+    
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kHeaderTableViewCellIdentifier];
+    }
+    
+    BRShift *shift = self.fetchedResultsController.fetchedObjects[indexPath.row];
+    
+    cell.textLabel.text = shift.employee.name;
+    cell.detailTextLabel.text = [shift titleForCurrentActivity];
+    
+    return cell;
 }
 
-- (NSString *)hexColorForZoningAtIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
+- (void)scheduleView:(BRScheduleView *)someScheduleView didSelectBreakViewAtIndexPath:(NSIndexPath *)indexPath
 {
-    BRZoning *zoning = [self zoningObjectForIndexPath:indexPath];
-	BRZone *zone = zoning.sectionZone;
-	return zone.hexColor;
-}
-
-- (UIImage *)imageForHeaderAccessoryAtIndex:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
-{
-	BRShift *shift = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	return ([shift.duration containsDate:[NSDate date]]) ? [UIImage imageNamed:@"shiftIcon"] : nil;
-}
-
-- (UIImage *)imageForBreakAtIndexPath:(NSIndexPath *)indexPath inScheduleView:(ScheduleView *)someScheduleView
-{
-	BRBreak *breakObject = [self breakObjectForIndexPath:indexPath];
-	return breakObject.duration.scheduledDuration >= BRBreakTypeHalfLunch ? [UIImage imageNamed:@"lunchIcon"] : nil;
-}
-
-- (void)scheduleView:(ScheduleView *)someScheduleView didSelectZoningViewAtIndexPath:(NSIndexPath *)indexPath
-{
-	/*ScheduleDetailViewController *controller = [[ScheduleDetailViewController alloc] initWithNibName:@"ScheduleDetailView" bundle:nil];
-	 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-	 
-	 if (!popoverController)
-	 {
-	 popoverController = [[UIPopoverController alloc] initWithContentViewController:navigationController];
-	 popoverController.delegate = self;
-	 }
-	 else popoverController.contentViewController = navigationController;
-	 
-	 [popoverController presentPopoverFromRect:frame inView:scheduleView permittedArrowDirections:UIPopoverArrowDirectionLeft | UIPopoverArrowDirectionRight animated:YES];*/
-}
-
-- (void)scheduleView:(ScheduleView *)someScheduleView didSelectBreakViewAtIndexPath:(NSIndexPath *)indexPath
-{
-	self.indexPathOfSelectedBreakObject = indexPath;
+    self.indexPathOfSelectedBreakObject = indexPath;
 	BRBreak *breakObject = [self breakObjectForIndexPath:indexPath];
 	
 	NSString *buttonTitle = @"Mark as Ended";
@@ -324,21 +328,29 @@
 	NSDate *timeTaken = breakObject.duration.actualStartDate;
 	NSString *title = nil;
 	
-	if (!timeTaken) 
-		return;
-	else if ([timeTaken isEqualToDate:[NSDate distantFuture]])
-		buttonTitle = @"Mark as Started";
-	else
-		title = [NSString stringWithFormat:@"Started at %@", [breakDateFormatter stringFromDate:timeTaken]];
+    if (timeTaken) {
+        title = [NSString stringWithFormat:@"Started at %@", [breakDateFormatter stringFromDate:timeTaken]];
+    } else {
+        buttonTitle = @"Mark as Started";
+    }
 	
 	actionSheet = [[UIActionSheet alloc] initWithTitle:title
-											  delegate:self 
-									 cancelButtonTitle:nil 
-								destructiveButtonTitle:nil 
+											  delegate:self
+									 cancelButtonTitle:nil
+								destructiveButtonTitle:nil
 									 otherButtonTitles:buttonTitle, nil];
 	
 	CGRect rect = [someScheduleView rectForBreakAtIndexPath:indexPath];
 	[actionSheet showFromRect:rect inView:someScheduleView animated:YES];
+}
+
+#pragma mark - ScheduleViewController
+
+- (void)performBlockWhileIgnoringFetchedResultsControllerContentUpdates:(dispatch_block_t)block
+{
+    _shouldIgnoreFetchedResultsControllerContentUpdates = YES;
+    block();
+    _shouldIgnoreFetchedResultsControllerContentUpdates = NO;
 }
 
 #pragma mark - action sheet delegate

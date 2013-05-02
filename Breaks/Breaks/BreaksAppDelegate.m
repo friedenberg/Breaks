@@ -38,6 +38,12 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
         
         NSMutableSet *shifts = [NSMutableSet new];
         
+        BRSection *redZone = [NSEntityDescription insertNewObjectForEntityForName:@"BRSection" inManagedObjectContext:_coreDataController.managedObjectContext];
+        BRSection *familyRoom = [NSEntityDescription insertNewObjectForEntityForName:@"BRSection" inManagedObjectContext:_coreDataController.managedObjectContext];
+        
+        redZone.name = @"Red Zone";
+        familyRoom.name = @"Family Room";
+        
         BRZone *evenZone = [NSEntityDescription insertNewObjectForEntityForName:@"BRZone" inManagedObjectContext:_coreDataController.managedObjectContext];
         BRZone *oddZone = [NSEntityDescription insertNewObjectForEntityForName:@"BRZone" inManagedObjectContext:_coreDataController.managedObjectContext];
         
@@ -47,8 +53,8 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
         evenZone.name = @"Sales";
         oddZone.name = @"Setups";
         
-        evenZone.section = @"Red Zone";
-        oddZone.section = @"Family Room";
+        evenZone.section = redZone;
+        oddZone.section = familyRoom;
         
         for (int i = 0; i < 40; i++)
         {
