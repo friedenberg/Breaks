@@ -85,7 +85,7 @@
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableIndexSet *indexes = [NSMutableIndexSet new];
-    
+    //TODO: optimize based on rows visible
     [_layoutAttributes enumerateObjectsUsingBlock:^(UICollectionViewLayoutAttributes *attributes, NSUInteger idx, BOOL *stop) {
         
         if (CGRectIntersectsRect(attributes.frame, rect)) {

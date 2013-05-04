@@ -28,7 +28,7 @@
 
 @interface ScheduleViewController () <BreaksTableViewControllerDelegate, UIActionSheetDelegate, ZonesTableViewControllerDelegate, UIPopoverControllerDelegate, UINavigationControllerDelegate, BRScheduleViewDataSource, BRScheduleViewDelegate>
 {
-    IBOutlet BRScheduleView *scheduleView;
+    IBOutlet BRScheduleView *_scheduleView;
     UIPopoverController *popoverController;
 	UIActionSheet *actionSheet;
 	
@@ -77,15 +77,29 @@
 {
     [super setManagedObjectContext:value];
     _zoneTableViewController.managedObjectContext = value;
+    
+    NSFetchRequest *allZonesFetch = [NSFetchRequest new];
+    allZonesFetch.entity = [NSEntityDescription entityForName:@"BRZone" inManagedObjectContext:self.managedObjectContext];
+    allZonesFetch.resultType = NSManagedObjectIDResultType;
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:allZonesFetch error:&error];
+    if (fetchedObjects.count) {
+        _zoneTableViewController.selectedZones = [NSSet setWithArray:fetchedObjects];
+    } else {
+        
+    }
 }
 
 - (void)modifyFetchRequest
 {
 	NSFetchRequest *request = self.fetchRequest;
-	[request setEntity:[NSEntityDescription entityForName:@"BRShift" inManagedObjectContext:self.managedObjectContext]];
-	[request setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES],
-                               [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledEndDate" ascending:YES]]];
-	[request setRelationshipKeyPathsForPrefetching:[NSArray arrayWithObjects:@"breaks", @"zonings.shiftZone", @"employee", nil]];
+
+    request.entity = [NSEntityDescription entityForName:@"BRShift" inManagedObjectContext:self.managedObjectContext];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledStartDate" ascending:YES],
+                                [NSSortDescriptor sortDescriptorWithKey:@"duration.scheduledEndDate" ascending:YES]];
+    request.relationshipKeyPathsForPrefetching = @[@"breaks", @"zonings.shiftZone", @"employee"];
+    request.predicate = [NSPredicate predicateWithFormat:@"ANY zones IN %@", _zoneTableViewController.selectedZones];
 }
 
 - (void)viewDidLoad
@@ -154,13 +168,35 @@
     [self performBlockWhileIgnoringFetchedResultsControllerContentUpdates:^{
         
         [self performFetch];
+        NSArray *currentFetch = self.fetchedResultsController.fetchedObjects;
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"zones CONTAINS %@", [self.managedObjectContext objectWithID:objectID]];
+        NSIndexSet *addedIndexes = [currentFetch indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            
+            return [predicate evaluateWithObject:obj];
+            
+        }];
+        
+        [_scheduleView insertShiftsAtIndexes:addedIndexes];
         
     }];
 }
 
 - (void)zonesTableViewController:(ZonesTableViewController *)someController didDeselectZone:(NSManagedObjectID *)objectID
 {
-
+    [self performBlockWhileIgnoringFetchedResultsControllerContentUpdates:^{
+        
+        NSArray *previousFetch = self.fetchedResultsController.fetchedObjects.copy;
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"zones CONTAINS %@", [self.managedObjectContext objectWithID:objectID]];
+        NSIndexSet *removedIndexes = [previousFetch indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            
+            return [predicate evaluateWithObject:obj];
+            
+        }];
+        
+        [self performFetch];
+        
+        [_scheduleView deleteShiftsAtIndexes:removedIndexes];
+    }];
 }
 
 #pragma mark - breaks
@@ -261,7 +297,7 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     if (!_shouldIgnoreFetchedResultsControllerContentUpdates) {
-        [scheduleView reloadSchedule];
+        [_scheduleView reloadSchedule];
     }
 }
 

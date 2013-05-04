@@ -1,22 +1,23 @@
 //
-//  BRStoreShift.h
+//  BRShift.h
 //  Breaks
 //
-//  Created by Sasha Friedenberg on 4/8/13.
+//  Created by Sasha Friedenberg on 5/3/13.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class BRDuration, BRBreak, BRZoning, BREmployee;
+@class BRBreak, BRDuration, BREmployee, BRZone, BRZoning;
 
 @interface BRShift : NSManagedObject
 
-@property (nonatomic, strong) NSOrderedSet *breaks;
-@property (nonatomic, strong) BREmployee *employee;
-@property (nonatomic, strong) NSOrderedSet *zonings;
-@property (nonatomic, strong) BRDuration *duration;
+@property (nonatomic, retain) NSOrderedSet *breaks;
+@property (nonatomic, retain) BRDuration *duration;
+@property (nonatomic, retain) BREmployee *employee;
+@property (nonatomic, retain) NSOrderedSet *zonings;
+@property (nonatomic, retain) NSSet *zones;
 @end
 
 @interface BRShift (CoreDataGeneratedAccessors)
@@ -41,4 +42,9 @@
 - (void)removeZoningsObject:(BRZoning *)value;
 - (void)addZonings:(NSOrderedSet *)values;
 - (void)removeZonings:(NSOrderedSet *)values;
+- (void)addZonesObject:(BRZone *)value;
+- (void)removeZonesObject:(BRZone *)value;
+- (void)addZones:(NSSet *)values;
+- (void)removeZones:(NSSet *)values;
+
 @end

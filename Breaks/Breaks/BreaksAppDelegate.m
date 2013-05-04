@@ -82,7 +82,7 @@ BreaksAppDelegate *AppDelegate(void) { return (BreaksAppDelegate *)[[UIApplicati
             zoningTwo.duration.scheduledEndDate = shift.duration.scheduledEndDate;
             
             zoningOne.sectionZone = i % 2 > 0 || i == 1 ? oddZone : evenZone;
-            zoningTwo.sectionZone = i % 2 > 0 || i == 1 ? evenZone : oddZone;
+            zoningTwo.sectionZone = i % 2 > 0 || i == 1 ? oddZone : evenZone;
             
             [shifts addObject:shift];
         }

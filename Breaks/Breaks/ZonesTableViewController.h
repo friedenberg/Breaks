@@ -24,6 +24,6 @@
 }
 
 @property (nonatomic, weak) id <ZonesTableViewControllerDelegate> delegate;
-@property (nonatomic, readonly) NSSet *selectedZones;
+@property (nonatomic, strong) NSSet *selectedZones;
 
 @end

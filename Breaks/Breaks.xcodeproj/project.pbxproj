@@ -55,6 +55,8 @@
 		D9A8DB57155B486400C5BFF8 /* ZonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A8DB55155B486400C5BFF8 /* ZonesTableViewController.m */; };
 		D9A8DB58155B486400C5BFF8 /* ZonesTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A8DB56155B486400C5BFF8 /* ZonesTableView.xib */; };
 		D9AAD3A11585779C00407931 /* NSDate+ScheduleViewDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AAD3A01585779C00407931 /* NSDate+ScheduleViewDateAdditions.m */; };
+		D9B0983C1734A58F00A8F33B /* BRZone.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B0983B1734A58F00A8F33B /* BRZone.m */; };
+		D9B0983F1734A5AF00A8F33B /* BRShift.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B0983E1734A5AF00A8F33B /* BRShift.m */; };
 		D9B31222156D9E86001EA4A3 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B31221156D9E86001EA4A3 /* UIColor-Expanded.m */; };
 		D9E2AE4B1712F9E100C96E24 /* libAAKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E2AE4A1712F9E100C96E24 /* libAAKit.a */; };
 		D9E2AE56171383EB00C96E24 /* timeheadCarot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9E2AE54171383EA00C96E24 /* timeheadCarot.png */; };
@@ -63,11 +65,9 @@
 		D9E2AE5E171395F400C96E24 /* BRShift+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE5D171395F400C96E24 /* BRShift+Additions.m */; };
 		D9E2AE911713996100C96E24 /* BRZoning.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE901713996000C96E24 /* BRZoning.m */; };
 		D9E2AE941713996300C96E24 /* BRDuration.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE931713996200C96E24 /* BRDuration.m */; };
-		D9E2AE971713996400C96E24 /* BRShift.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE961713996300C96E24 /* BRShift.m */; };
 		D9E2AE9A1713996500C96E24 /* BRSection.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE991713996500C96E24 /* BRSection.m */; };
 		D9E2AE9D1713996500C96E24 /* BRRule.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE9C1713996500C96E24 /* BRRule.m */; };
 		D9E2AEA01713996700C96E24 /* BREmployee.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AE9F1713996600C96E24 /* BREmployee.m */; };
-		D9E2AEA31713996700C96E24 /* BRZone.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA21713996700C96E24 /* BRZone.m */; };
 		D9E2AEA61713996800C96E24 /* BRBreak.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA51713996800C96E24 /* BRBreak.m */; };
 		D9E2AEA91713A91F00C96E24 /* BRBreak+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E2AEA81713A91D00C96E24 /* BRBreak+Additions.m */; };
 		D9E793481725F6F6002A3369 /* BRTouchForwardingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9E793471725F6F6002A3369 /* BRTouchForwardingView.m */; };
@@ -153,6 +153,10 @@
 		D9A8DB56155B486400C5BFF8 /* ZonesTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZonesTableView.xib; sourceTree = "<group>"; };
 		D9AAD39F1585779C00407931 /* NSDate+ScheduleViewDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ScheduleViewDateAdditions.h"; sourceTree = "<group>"; };
 		D9AAD3A01585779C00407931 /* NSDate+ScheduleViewDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ScheduleViewDateAdditions.m"; sourceTree = "<group>"; };
+		D9B0983A1734A58F00A8F33B /* BRZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRZone.h; sourceTree = "<group>"; };
+		D9B0983B1734A58F00A8F33B /* BRZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRZone.m; sourceTree = "<group>"; };
+		D9B0983D1734A5AF00A8F33B /* BRShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRShift.h; sourceTree = "<group>"; };
+		D9B0983E1734A5AF00A8F33B /* BRShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRShift.m; sourceTree = "<group>"; };
 		D9B31220156D9E86001EA4A3 /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor-Expanded.h"; sourceTree = "<group>"; };
 		D9B31221156D9E86001EA4A3 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor-Expanded.m"; sourceTree = "<group>"; };
 		D9B31232156DABAF001EA4A3 /* BRModelObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRModelObjects.h; sourceTree = "<group>"; };
@@ -168,16 +172,12 @@
 		D9E2AE901713996000C96E24 /* BRZoning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRZoning.m; sourceTree = "<group>"; };
 		D9E2AE921713996200C96E24 /* BRDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRDuration.h; sourceTree = "<group>"; };
 		D9E2AE931713996200C96E24 /* BRDuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRDuration.m; sourceTree = "<group>"; };
-		D9E2AE951713996300C96E24 /* BRShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRShift.h; sourceTree = "<group>"; };
-		D9E2AE961713996300C96E24 /* BRShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRShift.m; sourceTree = "<group>"; };
 		D9E2AE981713996400C96E24 /* BRSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRSection.h; sourceTree = "<group>"; };
 		D9E2AE991713996500C96E24 /* BRSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRSection.m; sourceTree = "<group>"; };
 		D9E2AE9B1713996500C96E24 /* BRRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRRule.h; sourceTree = "<group>"; };
 		D9E2AE9C1713996500C96E24 /* BRRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRRule.m; sourceTree = "<group>"; };
 		D9E2AE9E1713996600C96E24 /* BREmployee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BREmployee.h; sourceTree = "<group>"; };
 		D9E2AE9F1713996600C96E24 /* BREmployee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BREmployee.m; sourceTree = "<group>"; };
-		D9E2AEA11713996700C96E24 /* BRZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRZone.h; sourceTree = "<group>"; };
-		D9E2AEA21713996700C96E24 /* BRZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRZone.m; sourceTree = "<group>"; };
 		D9E2AEA41713996800C96E24 /* BRBreak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRBreak.h; sourceTree = "<group>"; };
 		D9E2AEA51713996800C96E24 /* BRBreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRBreak.m; sourceTree = "<group>"; };
 		D9E2AEA71713A91D00C96E24 /* BRBreak+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BRBreak+Additions.h"; sourceTree = "<group>"; };
@@ -374,18 +374,18 @@
 				D9E2AEA81713A91D00C96E24 /* BRBreak+Additions.m */,
 				D9E2AEA41713996800C96E24 /* BRBreak.h */,
 				D9E2AEA51713996800C96E24 /* BRBreak.m */,
-				D9E2AEA11713996700C96E24 /* BRZone.h */,
-				D9E2AEA21713996700C96E24 /* BRZone.m */,
 				D9E2AE9E1713996600C96E24 /* BREmployee.h */,
 				D9E2AE9F1713996600C96E24 /* BREmployee.m */,
 				D9E2AE9B1713996500C96E24 /* BRRule.h */,
 				D9E2AE9C1713996500C96E24 /* BRRule.m */,
 				D9E2AE981713996400C96E24 /* BRSection.h */,
 				D9E2AE991713996500C96E24 /* BRSection.m */,
-				D9E2AE951713996300C96E24 /* BRShift.h */,
-				D9E2AE961713996300C96E24 /* BRShift.m */,
+				D9B0983D1734A5AF00A8F33B /* BRShift.h */,
+				D9B0983E1734A5AF00A8F33B /* BRShift.m */,
 				D9E2AE921713996200C96E24 /* BRDuration.h */,
 				D9E2AE931713996200C96E24 /* BRDuration.m */,
+				D9B0983A1734A58F00A8F33B /* BRZone.h */,
+				D9B0983B1734A58F00A8F33B /* BRZone.m */,
 				D9E2AE8F1713996000C96E24 /* BRZoning.h */,
 				D9E2AE901713996000C96E24 /* BRZoning.m */,
 			);
@@ -571,11 +571,9 @@
 				D9E2AE5E171395F400C96E24 /* BRShift+Additions.m in Sources */,
 				D9E2AE911713996100C96E24 /* BRZoning.m in Sources */,
 				D9E2AE941713996300C96E24 /* BRDuration.m in Sources */,
-				D9E2AE971713996400C96E24 /* BRShift.m in Sources */,
 				D9E2AE9A1713996500C96E24 /* BRSection.m in Sources */,
 				D9E2AE9D1713996500C96E24 /* BRRule.m in Sources */,
 				D9E2AEA01713996700C96E24 /* BREmployee.m in Sources */,
-				D9E2AEA31713996700C96E24 /* BRZone.m in Sources */,
 				D9E2AEA61713996800C96E24 /* BRBreak.m in Sources */,
 				D9E2AEA91713A91F00C96E24 /* BRBreak+Additions.m in Sources */,
 				D98F9A59171C9D2E0002D05F /* BRScheduleViewLayout.m in Sources */,
@@ -583,6 +581,8 @@
 				D98F9A5F171CA1FD0002D05F /* BRScheduleDuration.m in Sources */,
 				D972A12A171CE46F00490D34 /* BRScheduleBackgroundView.m in Sources */,
 				D9E793481725F6F6002A3369 /* BRTouchForwardingView.m in Sources */,
+				D9B0983C1734A58F00A8F33B /* BRZone.m in Sources */,
+				D9B0983F1734A5AF00A8F33B /* BRShift.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

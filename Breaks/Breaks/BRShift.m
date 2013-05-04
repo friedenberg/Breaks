@@ -1,30 +1,43 @@
 //
-//  BRStoreShift.m
+//  BRShift.m
 //  Breaks
 //
-//  Created by Sasha Friedenberg on 4/8/13.
+//  Created by Sasha Friedenberg on 5/3/13.
 //
 //
 
 #import "BRShift.h"
-#import "BRDuration.h"
 #import "BRBreak.h"
-#import "BRZoning.h"
+#import "BRDuration.h"
 #import "BREmployee.h"
+#import "BRZone.h"
+#import "BRZoning.h"
 
 
 @implementation BRShift
 
 @dynamic breaks;
+@dynamic duration;
 @dynamic employee;
 @dynamic zonings;
-@dynamic duration;
+@dynamic zones;
 
 - (void)awakeFromInsert
 {
     [super awakeFromInsert];
     
     [self setPrimitiveValue:[NSEntityDescription insertNewObjectForEntityForName:@"BRDuration" inManagedObjectContext:self.managedObjectContext] forKey:@"duration"];
+}
+
+- (void)willSave
+{
+    [super willSave];
+    
+    NSSet *zones = [(NSOrderedSet *)[self.zonings valueForKey:@"sectionZone"] set];
+    
+    if (![self.zones isEqualToSet:zones]) {
+        self.zones = zones;
+    }
 }
 
 @end

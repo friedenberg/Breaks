@@ -32,6 +32,7 @@
         <relationship name="breaks" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BRBreak" inverseName="shift" inverseEntity="BRBreak" syncable="YES"/>
         <relationship name="duration" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRDuration" inverseName="shift" inverseEntity="BRDuration" syncable="YES"/>
         <relationship name="employee" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BREmployee" inverseName="shifts" inverseEntity="BREmployee" syncable="YES"/>
+        <relationship name="zones" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BRZone" inverseName="zones" inverseEntity="BRZone" syncable="YES"/>
         <relationship name="zonings" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BRZoning" inverseName="shift" inverseEntity="BRZoning" syncable="YES"/>
     </entity>
     <entity name="BRZone" representedClassName="BRZone" syncable="YES">
@@ -39,6 +40,7 @@
         <attribute name="name" optional="YES" attributeType="String" minValueString="1" syncable="YES"/>
         <relationship name="rules" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="BRRule" inverseName="sectionZone" inverseEntity="BRRule" syncable="YES"/>
         <relationship name="section" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="BRSection" inverseName="sectionZone" inverseEntity="BRSection" syncable="YES"/>
+        <relationship name="zones" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BRShift" inverseName="zones" inverseEntity="BRShift" syncable="YES"/>
         <relationship name="zonings" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BRZoning" inverseName="sectionZone" inverseEntity="BRZoning" syncable="YES"/>
     </entity>
     <entity name="BRZoning" representedClassName="BRZoning" syncable="YES">
@@ -52,8 +54,8 @@
         <element name="BREmployee" positionX="-227" positionY="-381" width="128" height="75"/>
         <element name="BRRule" positionX="459" positionY="-99" width="128" height="60"/>
         <element name="BRSection" positionX="315" positionY="288" width="128" height="75"/>
-        <element name="BRShift" positionX="16" positionY="-396" width="128" height="105"/>
-        <element name="BRZone" positionX="232" positionY="-72" width="128" height="118"/>
+        <element name="BRShift" positionX="16" positionY="-396" width="128" height="120"/>
+        <element name="BRZone" positionX="232" positionY="-72" width="128" height="135"/>
         <element name="BRZoning" positionX="450" positionY="63" width="128" height="90"/>
     </elements>
 </model>

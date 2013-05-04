@@ -67,6 +67,8 @@
 
 - (void)layoutTimeheadView;
 
+- (void)updateCache;
+
 @end
 
 @implementation BRScheduleView
@@ -134,6 +136,8 @@ static UIImage *kTimeheadCarotImage;
         _touchForwardingView.scheduleView = self;
         
         _captureScrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        _captureScrollView.alwaysBounceHorizontal = YES;
+        _captureScrollView.alwaysBounceVertical = YES;
         [_captureScrollView addSubview:_touchForwardingView];
         _captureScrollView.delegate = self;
         
@@ -161,8 +165,8 @@ static UIImage *kTimeheadCarotImage;
     _captureScrollView.frame = bounds;
     
     //content view
-        CGRect contentFrame = bounds;
-        _contentView.frame = contentFrame;
+    CGRect contentFrame = bounds;
+    _contentView.frame = contentFrame;
     
     //collection views
     CGRect collectionFrame = bounds;
@@ -172,7 +176,7 @@ static UIImage *kTimeheadCarotImage;
     _breakCollectionView.frame = collectionFrame;
     
     //background view
-    CGRect backgroundScrollFrame = CGRectInsetFromTop(collectionFrame, -_rulerHeight);;
+    CGRect backgroundScrollFrame = CGRectInsetFromTop(collectionFrame, -_rulerHeight);
     _backgroundScrollView.frame = backgroundScrollFrame;
     
     //header table view frame
@@ -182,8 +186,9 @@ static UIImage *kTimeheadCarotImage;
     
     //backgroundview positioning
     CGRect backgroundFrame = CGRectZero;
-    backgroundFrame.size = _scheduleContentSize;
+    backgroundFrame.size = collectionFrame.size;
     backgroundFrame.size.height += _rulerHeight;
+    backgroundFrame.size.width = _scheduleContentSize.width;
     _backgroundView.frame = backgroundFrame;
     
     _touchForwardingView.frame = CGRectFromCGSize(_captureScrollView.contentSize);
@@ -281,14 +286,34 @@ static UIImage *kTimeheadCarotImage;
 
 #pragma mark - BRScheduleView Mutation
 
-- (void)beginUpdates
+- (void)insertShiftsAtIndexes:(NSIndexSet *)addedIndexes
 {
+    [self updateCache];
     
+    NSMutableArray *indexPathes = [NSMutableArray new];
+    
+    [addedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        [indexPathes addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+    }];
+    
+    [_headerTableView insertRowsAtIndexPaths:indexPathes withRowAnimation:UITableViewRowAnimationAutomatic];
+    [_zoningCollectionView insertSections:addedIndexes];
+    [_breakCollectionView insertSections:addedIndexes];
 }
 
-- (void)endUpdates
+- (void)deleteShiftsAtIndexes:(NSIndexSet *)deletedIndexes
 {
+    [self updateCache];
     
+    NSMutableArray *indexPathes = [NSMutableArray new];
+    
+    [deletedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        [indexPathes addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+    }];
+    
+    [_headerTableView deleteRowsAtIndexPaths:indexPathes withRowAnimation:UITableViewRowAnimationAutomatic];
+    [_zoningCollectionView deleteSections:deletedIndexes];
+    [_breakCollectionView deleteSections:deletedIndexes];
 }
 
 #pragma mark - UIResponder
@@ -472,7 +497,7 @@ static UIImage *kTimeheadCarotImage;
 
 #pragma mark - BRScheduleView
 
-- (void)reloadSchedule
+- (void)updateCache
 {
     NSUInteger shiftCount = [self.dataSource numberOfShiftsInScheduleView:self];
     [_zoningDurations removeAllObjects];
@@ -502,12 +527,17 @@ static UIImage *kTimeheadCarotImage;
         });
         
     });
-    
+}
+
+- (void)reloadSchedule
+{
+    [self updateCache];
     [self updateContentSize];
     [self setNeedsLayout];
     [_zoningCollectionView.collectionViewLayout invalidateLayout];
     [_breakCollectionView.collectionViewLayout invalidateLayout];
     [self layoutIfNeeded];
+    [_headerTableView reloadData];
 }
 
 @end

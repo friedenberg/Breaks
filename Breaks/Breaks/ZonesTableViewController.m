@@ -32,6 +32,13 @@
     return self;
 }
 
+#pragma mark - ZonesTableViewController
+
+- (void)setSelectedZones:(NSSet *)value
+{
+    [_selectedZones setSet:value];
+}
+
 @dynamic delegate;
 
 - (NSString *)sectionNameKeyPath
@@ -50,19 +57,6 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
-    NSFetchRequest *allZonesFetch = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"BRZone" inManagedObjectContext:self.managedObjectContext];
-    [allZonesFetch setEntity:entity];
-    [allZonesFetch setResultType:NSManagedObjectIDResultType];
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:allZonesFetch error:&error];
-    if (fetchedObjects.count) {
-        [_selectedZones addObjectsFromArray:fetchedObjects];
-    } else {
-        
-    }
     
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	self.navigationItem.title = @"Zones";

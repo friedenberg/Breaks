@@ -65,8 +65,8 @@
 - (CGRect)rectForZoningAtIndexPath:(NSIndexPath *)indexPath;
 - (CGRect)rectForBreakAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void)beginUpdates;
-- (void)endUpdates;
+- (void)insertShiftsAtIndexes:(NSIndexSet *)addedIndexes;
+- (void)deleteShiftsAtIndexes:(NSIndexSet *)deletedIndexes;
 
 - (void)reloadSchedule;
 
